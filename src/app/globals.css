@@ -1,29 +1,29 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&family=Host+Grotesk:wght@300..800&display=swap'); */
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
   /* Base colors */
   --white: #ffffff;
   --black: #000000;
-  --gray-light: #F5F7FA;
-  --gray-medium: #64748B;
+  --gray-light: #f5f7fa;
+  --gray-medium: #64748b;
   --gray-dark: #333333;
 
   /* Blue color palette */
-  --blue-primary: #0A58EB;
-  --blue-secondary: #4D85FE;
-  --blue-light: #8BB9FF;
-  --blue-hover: #0847C7;
-  --blue-dark: #2A5BE9;
-  --blue-deep: #06358D;
+  --blue-primary: #0a58eb;
+  --blue-secondary: #4d85fe;
+  --blue-light: #8bb9ff;
+  --blue-hover: #0847c7;
+  --blue-dark: #2a5be9;
+  --blue-deep: #06358d;
 
   /* Green colors (for badges, success states) */
-  --green-light: #D1FAE5;
-  --green-medium: #10B981;
+  --green-light: #d1fae5;
+  --green-medium: #10b981;
   --green-dark: #059669;
 
   /* Additional UI colors */
-  --border-color: #E5E7EB;
+  --border-color: #e5e7eb;
   --overlay-bg: rgba(255, 255, 255, 0.1);
   --overlay-border: rgba(255, 255, 255, 0.2);
 
@@ -115,7 +115,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 /* Input styles - Blue border color always */
@@ -123,7 +125,9 @@ input,
 textarea,
 select {
   border-color: var(--input-focus) !important;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* Input focus styles - Blue focus color with shadow */
@@ -143,19 +147,19 @@ select:focus {
 }
 
 /* Ensure consistent blue border across all form elements */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="url"],
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='url'],
 textarea,
 select {
   border-color: var(--input-focus) !important;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="url"]:focus,
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+input[type='url']:focus,
 textarea:focus,
 select:focus {
   border-color: var(--input-focus) !important;
@@ -163,8 +167,8 @@ select:focus {
 }
 
 @font-face {
-  font-family: "Doto";
-  src: url("/fonts/Doto-Regular.ttf") format("truetype");
+  font-family: 'Doto';
+  src: url('/fonts/Doto-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -175,9 +179,8 @@ select:focus {
 
 /* Doto Heading Style */
 .doto {
-  font-family: "Doto" !important;
+  font-family: 'Doto' !important;
   /* color: #0F172A; */
-
 }
 
 @keyframes fadeIn {
@@ -203,7 +206,9 @@ select:focus {
   background-image: url("data:image/svg+xml,%3Csvg fill='none' stroke='%2364748B' stroke-width='2' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 /* On focus => glow */
@@ -224,7 +229,7 @@ select:focus {
 .paidPricingCad {
   border-radius: 24px;
   border: 1px solid var(--blue-primary);
-  background: rgba(255, 255, 255, 0.50);
+  background: rgba(255, 255, 255, 0.5);
   backdrop-filter: blur(17px) !important;
 }
 

@@ -1,8 +1,8 @@
-import { authApi } from "@/services/api";
+import { authApi } from '@/services/api';
 
 export const handleGitHubLogin = async (
   redirectPath?: string,
-  mode: "auth" | "connect" = "auth"
+  mode: 'auth' | 'connect' = 'auth',
 ) => {
   try {
     const from = redirectPath || window.location.pathname;

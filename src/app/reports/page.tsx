@@ -1,27 +1,11 @@
-"use client";
+'use client';
 
-import { useState, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
-import {
-  FileText,
-  Calendar,
-  Code2,
-  ArrowLeft,
-  Search,
-  Clock,
-  Shield,
-  Database,
-  DollarSign,
-  Layers,
-  X,
-  Download,
-} from "lucide-react";
-import { StaticAnalysisReport } from "@/types/api";
-import { staticAnalysisApi } from "@/services/api";
-import StaticAnalysisReportDisplay from "@/components/StaticAnalysisReportDisplay";
-import ExportModal from "@/components/ExportModal";
-import { getScoreColor } from "@/utils";
-import Image from "next/image";
+import { getScoreColor } from '@/utils';
+import { Search } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
+import Image from 'next/image';
+import { staticAnalysisApi } from '@/services/api';
+import { StaticAnalysisReport } from '@/types/api';
 
 interface ReportsPageProps {
   onReportSelect?: (reportId: string) => void;
@@ -39,10 +23,10 @@ const ReportsPage = ({
     StaticAnalysisReport[]
   >([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sortBy, setSortBy] = useState<"date" | "score" | "repository">("date");
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [error, setError] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState<'date' | 'score' | 'repository'>('date');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
     loadReports();
@@ -51,13 +35,13 @@ const ReportsPage = ({
   const loadReports = async () => {
     try {
       setIsLoading(true);
-      setError("");
+      setError('');
       const reportsData = await staticAnalysisApi.getAllReports();
       setReports(reportsData);
       setFilteredReports(reportsData);
     } catch (err) {
-      setError("Failed to load reports. Please try again.");
-      console.error("Error loading reports:", err);
+      setError('Failed to load reports. Please try again.');
+      console.error('Error loading reports:', err);
     } finally {
       setIsLoading(false);
     }
@@ -70,7 +54,7 @@ const ReportsPage = ({
       scores.security?.score,
       scores.systemic?.score,
       scores.economic?.score,
-    ].filter((v) => typeof v === "number" && !isNaN(v));
+    ].filter((v) => typeof v === 'number' && !isNaN(v));
 
     if (values.length === 0) return 0;
     const total = values.reduce((sum, v) => sum + v, 0);
@@ -83,7 +67,7 @@ const ReportsPage = ({
       (report) =>
         report.repository.toLowerCase().includes(searchTerm.toLowerCase()) ||
         report.language.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        report.framework.toLowerCase().includes(searchTerm.toLowerCase())
+        report.framework.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
     // Sort reports
@@ -91,15 +75,15 @@ const ReportsPage = ({
       let aValue: string | number | Date, bValue: string | number | Date;
 
       switch (sortBy) {
-        case "date":
+        case 'date':
           aValue = new Date(a.createdAt);
           bValue = new Date(b.createdAt);
           break;
-        case "score":
+        case 'score':
           aValue = getOverallScore(a);
           bValue = getOverallScore(b);
           break;
-        case "repository":
+        case 'repository':
           aValue = a.repository.toLowerCase();
           bValue = b.repository.toLowerCase();
           break;
@@ -107,7 +91,7 @@ const ReportsPage = ({
           return 0;
       }
 
-      if (sortOrder === "asc") {
+      if (sortOrder === 'asc') {
         return aValue > bValue ? 1 : -1;
       } else {
         return aValue < bValue ? 1 : -1;
@@ -122,12 +106,12 @@ const ReportsPage = ({
   }, [filterAndSortReports]);
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-      hour: "2-digit",
-      minute: "2-digit",
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
     });
   };
 
@@ -172,7 +156,7 @@ const ReportsPage = ({
             <select
               value={sortBy}
               onChange={(e) =>
-                setSortBy(e.target.value as "date" | "score" | "repository")
+                setSortBy(e.target.value as 'date' | 'score' | 'repository')
               }
               className="px-4 py-0 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
@@ -202,7 +186,7 @@ const ReportsPage = ({
             </h3>
             <p className="text-gray-600 mb-4">
               {searchTerm
-                ? "No reports match your search criteria."
+                ? 'No reports match your search criteria.'
                 : "You haven't generated any analysis reports yet."}
             </p>
             <button
@@ -217,14 +201,14 @@ const ReportsPage = ({
             <div
               key={
                 // @ts-ignore
-                typeof report._id === "string" ? report._id : report._id.$oid
+                typeof report._id === 'string' ? report._id : report._id.$oid
               }
               onClick={() =>
                 onReportSelect?.(
-                  typeof report._id === "string"
+                  typeof report._id === 'string'
                     ? report._id
                     : // @ts-ignore
-                      report._id.$oid
+                      report._id.$oid,
                 )
               }
               className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md hover:border-blue-300 cursor-pointer transition-all"
@@ -255,7 +239,7 @@ const ReportsPage = ({
                   <span className="text-sm text-gray-600">Overall Score</span>
                   <span
                     className={`text-2xl font-normal px-2 py-0 rounded-lg inline-block ${getScoreColor(
-                      getOverallScore(report)
+                      getOverallScore(report),
                     )}`}
                   >
                     {getOverallScore(report)}
@@ -263,7 +247,7 @@ const ReportsPage = ({
                   <span className="text-sm text-[var(--blue-primary)] flex">
                     view details
                     <Image
-                      src={"/icons/ArrowRightDotted.svg"}
+                      src={'/icons/ArrowRightDotted.svg'}
                       alt="arrowright"
                       width={10}
                       height={10}

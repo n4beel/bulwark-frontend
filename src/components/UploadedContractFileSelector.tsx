@@ -1,15 +1,14 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
 import {
-  CheckSquare,
-  Square,
-  FileText,
-  ArrowLeft,
   ArrowRight,
-  Search,
+  CheckSquare,
   Code2,
-} from "lucide-react";
+  FileText,
+  Search,
+  Square,
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface ContractFile {
   path: string;
@@ -18,7 +17,7 @@ interface ContractFile {
   language: string;
 }
 
-type AnalysisType = "ai" | "static";
+type AnalysisType = 'ai' | 'static';
 
 interface UploadedContractFileSelectorProps {
   contractFiles: ContractFile[];
@@ -32,8 +31,8 @@ export default function UploadedContractFileSelector({
   onProceed,
 }: UploadedContractFileSelectorProps) {
   const [selectedFiles, setSelectedFiles] = useState<Set<string>>(new Set());
-  const [searchTerm, setSearchTerm] = useState("");
-  const [error, setError] = useState("");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     // Auto-select all files by default
@@ -41,9 +40,9 @@ export default function UploadedContractFileSelector({
   }, [contractFiles]);
 
   const getLanguageFromExtension = (filename: string): string => {
-    if (filename.endsWith(".sol")) return "Solidity (EVM)";
-    if (filename.endsWith(".rs")) return "Rust (Solana/Near)";
-    return "Unknown";
+    if (filename.endsWith('.sol')) return 'Solidity (EVM)';
+    if (filename.endsWith('.rs')) return 'Rust (Solana/Near)';
+    return 'Unknown';
   };
 
   const toggleFile = (filePath: string) => {
@@ -67,25 +66,25 @@ export default function UploadedContractFileSelector({
 
   const handleProceed = () => {
     if (selectedFiles.size === 0) {
-      setError("Please select at least one contract file to audit.");
+      setError('Please select at least one contract file to audit.');
       return;
     }
 
-    onProceed(Array.from(selectedFiles), "static");
+    onProceed(Array.from(selectedFiles), 'static');
   };
 
   const filteredFiles = contractFiles.filter(
     (file) =>
       file.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      file.path.toLowerCase().includes(searchTerm.toLowerCase())
+      file.path.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   const formatFileSize = (bytes: number): string => {
-    if (bytes === 0) return "0 B";
+    if (bytes === 0) return '0 B';
     const k = 1024;
-    const sizes = ["B", "KB", "MB", "GB"];
+    const sizes = ['B', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
   };
 
   return (
@@ -179,8 +178,8 @@ export default function UploadedContractFileSelector({
           {filteredFiles.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               {searchTerm
-                ? "No contract files found matching your search."
-                : "No contract files found in uploaded archive."}
+                ? 'No contract files found matching your search.'
+                : 'No contract files found in uploaded archive.'}
             </div>
           ) : (
             <div className="divide-y divide-gray-200">
@@ -232,7 +231,7 @@ export default function UploadedContractFileSelector({
             {selectedFiles.size > 0 && (
               <span>
                 Ready to analyze {selectedFiles.size} contract file
-                {selectedFiles.size !== 1 ? "s" : ""}
+                {selectedFiles.size !== 1 ? 's' : ''}
               </span>
             )}
           </div>

@@ -1,42 +1,38 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
-import { Upload } from "lucide-react";
-import Image from "next/image";
-
-import { fetchRepoFilesPublic } from "@/services/api";
-import Navbar from "@/components/NavBar";
-import HeroSection from "@/components/Hero";
-import { handleGitHubLogin } from "@/utils/auth";
-import { useUploadFlow } from "@/hooks";
-import UploadFlowModal from "@/components/uploadFlow/UploadFlowModal";
-import ResultsModal from "@/components/Receipt/Receipt";
-import ReceiptModal from "@/components/Receipt/Receipt";
-import GitHubFlowModal from "@/components/UploadGihubFlow/GitHubModalFlow";
-import { GitHubFlowStep, useGitHubFlow } from "@/hooks/useGitHubFlow";
-import BulwarkAnimated from "@/components/BulwarkAnimated";
-import FeatureCards from "@/components/FeatureCards";
-import { features, teamItems } from "@/constants/ui";
-import HowItWorks from "@/components/HowItWorks";
-import Web3TeamsSection from "@/components/Web3TeamSection";
-import AuditorMarketplace from "@/components/AuditorMarketplace";
-import PricingSection from "@/components/Pricing";
-import Footer from "@/components/Footer";
-import NewsletterSection from "@/components/NewsLetter";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
-import { useAppSelector } from "@/hooks/useAppSelector";
+import { useUploadFlow } from '@/hooks';
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import AuditorMarketplace from '@/modules/home/components/AuditorMarketplace';
+import BulwarkAnimated from '@/modules/home/components/BulwarkAnimated';
+import FeatureCards from '@/modules/home/components/FeatureCards';
+import HeroSection from '@/modules/home/components/Hero';
+import HowItWorks from '@/modules/home/components/HowItWorks';
+import NewsletterSection from '@/modules/home/components/NewsLetter';
+import PricingSection from '@/modules/home/components/Pricing';
+import Web3TeamsSection from '@/modules/home/components/Web3TeamSection';
+import { features, teamItems } from '@/modules/home/constants';
+import Footer from '@/shared/components/Footer';
+import Navbar from '@/shared/components/Navbar/NavBar';
+import ReceiptModal from '@/shared/components/Receipt/Receipt';
+import UploadFlowModal from '@/shared/components/uploadFlow/UploadFlowModal';
+import GitHubFlowModal from '@/shared/components/UploadGihubFlow/GitHubModalFlow';
+import { useAppSelector } from '@/shared/hooks/useAppSelector';
+import { GitHubFlowStep, useGitHubFlow } from '@/shared/hooks/useGitHubFlow';
+import { RootState } from '@/store/store';
+import { fetchRepoFilesPublic } from '@/services/api';
+import { handleGitHubLogin } from '@/utils/auth';
 
 type AppState =
-  | "auth"
-  | "select"
-  | "fileSelect"
-  | "upload"
-  | "uploadFileSelect"
-  | "loading"
-  | "report"
-  | "staticReport";
-type AnalysisType = "ai" | "static";
+  | 'auth'
+  | 'select'
+  | 'fileSelect'
+  | 'upload'
+  | 'uploadFileSelect'
+  | 'loading'
+  | 'report'
+  | 'staticReport';
+type AnalysisType = 'ai' | 'static';
 
 interface GitHubUser {
   id: number;
@@ -60,12 +56,12 @@ export default function Home() {
   } = useUploadFlow();
 
   const [isUploadFlowOpen, setUploadFlowOpen] = useState(false);
-  const [currentState, setCurrentState] = useState<AppState>("auth");
-  const [accessToken, setAccessToken] = useState("");
+  const [currentState, setCurrentState] = useState<AppState>('auth');
+  const [accessToken, setAccessToken] = useState('');
   const [user, setUser] = useState<GitHubUser | null>(null);
   const { githubToken } = useAppSelector((state: RootState) => state.auth);
 
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
 
   const [openResults, setOpenResults] = useState(false);
   const [resultsReport, setResultsReport] = useState<any>(null);
@@ -89,30 +85,30 @@ export default function Home() {
   // Check for existing authentication on component mount
   useEffect(() => {
     // Only run on client side to prevent hydration mismatch
-    if (typeof window !== "undefined") {
-      const token = localStorage.getItem("github_token");
-      const userData = localStorage.getItem("github_user");
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('github_token');
+      const userData = localStorage.getItem('github_user');
 
       if (token && userData) {
         try {
           const user = JSON.parse(userData);
           setAccessToken(token);
           setUser(user);
-          setCurrentState("select");
+          setCurrentState('select');
         } catch {
           // Invalid user data, clear storage
-          localStorage.removeItem("github_token");
-          localStorage.removeItem("github_user");
+          localStorage.removeItem('github_token');
+          localStorage.removeItem('github_user');
         }
       }
     }
   }, []);
 
   useEffect(() => {
-    const shouldOpenFlow = sessionStorage.getItem("open_github_flow");
+    const shouldOpenFlow = sessionStorage.getItem('open_github_flow');
 
-    if (shouldOpenFlow === "true") {
-      sessionStorage.removeItem("open_github_flow");
+    if (shouldOpenFlow === 'true') {
+      sessionStorage.removeItem('open_github_flow');
 
       if (githubToken) {
         handleAuthSuccess(githubToken);
@@ -125,12 +121,12 @@ export default function Home() {
       <Navbar />
 
       <HeroSection
-        onConnectGitHub={() => handleGitHubLogin("/", "connect")}
+        onConnectGitHub={() => handleGitHubLogin('/', 'connect')}
         onUploadZip={() => setUploadFlowOpen(true)}
         onAnalyze={async (input) => {
           try {
             const match = input.match(/github\.com\/([^/]+)\/([^/]+)/);
-            if (!match) throw new Error("Invalid GitHub URL format");
+            if (!match) throw new Error('Invalid GitHub URL format');
 
             const owner = match[1];
             const repo = match[2];
@@ -138,9 +134,9 @@ export default function Home() {
             const result = await fetchRepoFilesPublic(owner, repo);
             const files = result.rsFilesOnly.map((item: any) => ({
               path: item.path,
-              name: item.path.split("/").pop()!,
+              name: item.path.split('/').pop()!,
               size: 0,
-              language: "Rust",
+              language: 'Rust',
             }));
             // ✅ Set GitHubFlow Repo
             selectRepository(
@@ -151,7 +147,7 @@ export default function Home() {
                 html_url: input,
                 private: false,
               },
-              files
+              files,
             ); // IMPORTANT ✅
 
             // ✅ Set files into GitHubFlow
@@ -160,7 +156,7 @@ export default function Home() {
             // ✅ Open modal file selection UI
             setStep(GitHubFlowStep.FILE_SELECT);
           } catch (err) {
-            setError("❌ Repo not found or not a public repo with Rust files.");
+            setError('❌ Repo not found or not a public repo with Rust files.');
           }
         }}
       />
@@ -211,7 +207,7 @@ export default function Home() {
         accessToken={githubAccessToken}
         onClose={() => {
           resetGithubFlow();
-          localStorage.removeItem("github_token");
+          localStorage.removeItem('github_token');
         }}
         selectedRepo={githubSelectedRepo}
         contractFiles={githubFiles}

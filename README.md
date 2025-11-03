@@ -25,17 +25,20 @@ A beautiful, modern web interface for the Bulwark Tool scoping engine that analy
 ## 📦 Installation
 
 1. **Install dependencies:**
+
    ```bash
    npm install
    ```
 
 2. **Set up environment variables:**
    Create a `.env.local` file:
+
    ```env
    NEXT_PUBLIC_API_URL=http://localhost:3000
    ```
 
 3. **Start the development server:**
+
    ```bash
    npm run dev
    ```
@@ -55,19 +58,23 @@ To use the tool, you'll need a GitHub Personal Access Token:
 ## 🎯 How to Use
 
 ### 1. **Authentication**
+
 - Enter your GitHub Personal Access Token
 - Click "Connect GitHub"
 
 ### 2. **Repository Selection**
+
 - Browse your repositories
 - Use the search to filter repositories
 - Click "Analyze" on the repository you want to audit
 
 ### 3. **Analysis**
+
 - Watch the real-time progress indicators
 - The system will clone, analyze, and generate a report
 
 ### 4. **Review Report**
+
 - View comprehensive audit estimates
 - Check identified risk areas
 - Review recommendations
@@ -76,6 +83,7 @@ To use the tool, you'll need a GitHub Personal Access Token:
 ## 📊 Report Sections
 
 ### **Overview Tab**
+
 - Repository information
 - Audit duration estimates
 - Cost estimates
@@ -83,6 +91,7 @@ To use the tool, you'll need a GitHub Personal Access Token:
 - Quick statistics
 
 ### **Technical Analysis Tab**
+
 - Framework detection
 - Complexity assessment
 - Code metrics
@@ -90,12 +99,14 @@ To use the tool, you'll need a GitHub Personal Access Token:
 - Dependencies
 
 ### **Risk Areas Tab**
+
 - Security vulnerabilities
 - Framework-specific risks
 - Dependency risks
 - Common attack vectors
 
 ### **Recommendations Tab**
+
 - Pre-audit preparation
 - Security improvements
 - Framework-specific advice
@@ -104,6 +115,7 @@ To use the tool, you'll need a GitHub Personal Access Token:
 ## 🔧 Development
 
 ### **Project Structure**
+
 ```
 src/
 ├── app/
@@ -119,6 +131,7 @@ src/
 ```
 
 ### **Available Scripts**
+
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
@@ -134,6 +147,7 @@ The frontend communicates with the backend scoping engine via:
 ## 🎨 Design System
 
 The interface uses a clean, professional design with:
+
 - **Color Scheme**: Blue primary, gray neutrals, semantic colors for alerts
 - **Typography**: Clear hierarchy with proper contrast
 - **Spacing**: Consistent padding and margins
