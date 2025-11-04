@@ -1,31 +1,29 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { Upload } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-import { fetchRepoFilesPublic } from "@/services/api";
-import Navbar from "@/components/NavBar";
-import HeroSection from "@/components/Hero";
-import { handleGitHubLogin } from "@/utils/auth";
-import { useUploadFlow } from "@/hooks";
-import UploadFlowModal from "@/components/uploadFlow/UploadFlowModal";
-import ResultsModal from "@/components/Receipt/Receipt";
-import ReceiptModal from "@/components/Receipt/Receipt";
-import GitHubFlowModal from "@/components/UploadGihubFlow/GitHubModalFlow";
-import { GitHubFlowStep, useGitHubFlow } from "@/hooks/useGitHubFlow";
+import AuditorMarketplace from "@/components/AuditorMarketplace";
 import BulwarkAnimated from "@/components/BulwarkAnimated";
 import FeatureCards from "@/components/FeatureCards";
-import { features, teamItems } from "@/constants/ui";
-import HowItWorks from "@/components/HowItWorks";
-import Web3TeamsSection from "@/components/Web3TeamSection";
-import AuditorMarketplace from "@/components/AuditorMarketplace";
-import PricingSection from "@/components/Pricing";
 import Footer from "@/components/Footer";
+import HeroSection from "@/components/Hero";
+import HowItWorks from "@/components/HowItWorks";
+import Navbar from "@/components/NavBar";
 import NewsletterSection from "@/components/NewsLetter";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
+import PricingSection from "@/components/Pricing";
+import ReceiptModal from "@/components/Receipt/Receipt";
+import UploadFlowModal from "@/components/uploadFlow/UploadFlowModal";
+import GitHubFlowModal from "@/components/UploadGihubFlow/GitHubModalFlow";
+import Web3TeamsSection from "@/components/Web3TeamSection";
+import { features, teamItems } from "@/constants/ui";
+import { useUploadFlow } from "@/hooks";
 import { useAppSelector } from "@/hooks/useAppSelector";
+import { GitHubFlowStep, useGitHubFlow } from "@/hooks/useGitHubFlow";
+import { track } from "@/lib/track";
+import { fetchRepoFilesPublic } from "@/services/api";
+import { RootState } from "@/store/store";
+import { handleGitHubLogin } from "@/utils/auth";
 
 type AppState =
   | "auth"
@@ -125,8 +123,14 @@ export default function Home() {
       <Navbar />
 
       <HeroSection
-        onConnectGitHub={() => handleGitHubLogin("/", "connect")}
-        onUploadZip={() => setUploadFlowOpen(true)}
+        onConnectGitHub={() => {
+          track("github_connect_clicked");
+          handleGitHubLogin("/", "connect");
+        }}
+        onUploadZip={() => {
+          track("upload_flow_started");
+          setUploadFlowOpen(true);
+        }}
         onAnalyze={async (input) => {
           try {
             const match = input.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -159,6 +163,7 @@ export default function Home() {
 
             // ✅ Open modal file selection UI
             setStep(GitHubFlowStep.FILE_SELECT);
+            track("repository_selected", { repo });
           } catch (err) {
             setError("❌ Repo not found or not a public repo with Rust files.");
           }

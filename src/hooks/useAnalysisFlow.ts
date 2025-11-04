@@ -1,9 +1,10 @@
 // hooks/useAnalysisFlows.ts
-import { useState, useEffect } from "react";
 import { useUploadFlow } from "@/hooks";
 import { GitHubFlowStep, useGitHubFlow } from "@/hooks/useGitHubFlow";
-import { handleGitHubLogin } from "@/utils/auth";
+import { track } from "@/lib/track";
 import { fetchRepoFilesPublic } from "@/services/api";
+import { handleGitHubLogin } from "@/utils/auth";
+import { useState } from "react";
 
 export const useAnalysisFlows = () => {
   // Upload Flow Hook
@@ -46,10 +47,12 @@ export const useAnalysisFlows = () => {
     redirectPath = "/",
     mode: "auth" | "connect" = "auth"
   ) => {
+    track("github_connect_clicked", { mode });
     handleGitHubLogin(redirectPath, mode); // ✅ Pass mode parameter
   };
 
   const handleUploadZip = () => {
+    track("upload_flow_started");
     setUploadFlowOpen(true);
   };
 
@@ -78,6 +81,7 @@ export const useAnalysisFlows = () => {
       },
       files
     );
+    track("repository_selected", { repo });
 
     setContractFiles(files);
     setStep(GitHubFlowStep.FILE_SELECT);
