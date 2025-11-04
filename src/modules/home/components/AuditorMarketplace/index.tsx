@@ -5,61 +5,65 @@ import ComingSoonChip from '../../../../shared/components/ComingSoonChip';
 
 export default function AuditorMarketplace() {
   return (
-    <section className="w-full py-20 px-6" id="marketplace">
-      <div className="max-w-7xl mx-auto bg-[#EDF3FF] rounded-3xl p-10 shadow-sm flex flex-col md:flex-row justify-between items-center gap-10">
-        {/* LEFT CONTENT */}
-        <div className="flex flex-col gap-4 max-w-lg">
-          {/* Badge */}
+    <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24" id="marketplace">
+      <div
+        className="
+          bg-[#EDF3FF] rounded-3xl border border-[var(--card-accent)]
+          shadow-[0_10px_40px_rgba(0,0,0,0.06)]
+          px-8 py-12 md:px-12 md:py-14
+          flex flex-col md:flex-row items-center justify-between gap-10
+        "
+      >
+        {/* LEFT COPY BLOCK */}
+        <div className="flex flex-col gap-5 max-w-md md:max-w-lg text-left">
+
           <ComingSoonChip />
 
-          {/* Title */}
           <h2
-            className="text-4xl doto tracking-normal"
-            style={{ color: 'var(--black)' }}
+            className="text-2xl md:text-4xl font-normal leading-snug"
+            style={{ fontFamily: '"Doto", sans-serif', color: 'var(--black-primary)' }}
           >
             Auditor Marketplace
           </h2>
 
-          {/* Description */}
-          <p className="leading-relaxed text-[var(--text-secondary)]">
-            Get matched with top auditors based on stack, size, and risk
-            profile. Skip the cold outreach and connect directly with pre-vetted
-            security experts.
+          <p className="text-sm md:text-base text-[var(--text-secondary)] leading-relaxed">
+            Get matched with top auditors based on stack, size, and risk profile.
+            Skip the cold outreach — connect directly with vetted security experts.
           </p>
 
-          {/* Bullet list */}
-          <ul className="space-y-2 text-[var(--text-secondary)] text-sm">
-            <li className="flex gap-2">
-              <span className="text-[var(--blue-primary)] font-bold">•</span>
-              Smart matching based on expertise
-            </li>
-            <li className="flex gap-2">
-              <span className="text-[var(--blue-primary)] font-bold">•</span>
-              Transparent pricing and timelines
-            </li>
-            <li className="flex gap-2">
-              <span className="text-[var(--blue-primary)] font-bold">•</span>
-              Verified track records and reviews
-            </li>
+          <ul className="space-y-2 text-sm text-[var(--text-secondary)] leading-relaxed">
+            {[
+              'Smart matching based on expertise',
+              'Transparent pricing and timelines',
+              'Verified track records and reviews',
+            ].map((line, i) => (
+              <li key={i} className="flex items-start gap-2">
+                <span className="text-[var(--blue-primary)] font-bold leading-[1.3]">•</span>
+                {line}
+              </li>
+            ))}
           </ul>
 
-          {/* CTA Button */}
+          {/* CTA */}
           <button
-            className="mt-4 w-fit inline-flex items-center gap-2 px-6 py-3 rounded-lg 
-            text-white bg-[var(--button-primary)] hover:bg-[var(--button-primary-hover)] transition cursor-pointer"
+            className="
+              mt-4 inline-flex items-center gap-2 px-6 py-3 rounded-lg
+              bg-[var(--button-primary)] hover:bg-[var(--button-primary-hover)]
+              text-white text-sm font-medium transition
+            "
           >
             Join the waitlist →
           </button>
         </div>
 
         {/* RIGHT IMAGE */}
-        <div className="w-full max-w-[460px]">
+        <div className="w-full max-w-[420px]">
           <Image
             src="/images/AuditorPreview.png"
             alt="Auditor Marketplace Preview"
-            width={460}
-            height={340}
-            className="rounded-xl"
+            width={420}
+            height={320}
+            className="rounded-2xl w-full h-auto"
           />
         </div>
       </div>

@@ -6,11 +6,11 @@ import PaidPricingCard from '../../../../shared/components/PaidPricingCard';
 export default function PricingSection() {
   return (
     <section
-      className="w-full py-24 px-6 relative overflow-visible"
+      className="w-full py-24 px-6 relative overflow-hidden" // ✅ changed: prevent horizontal scroll
       id="pricing"
     >
       <div className="max-w-7xl mx-auto text-center mb-12">
-        <h2 className="text-4xl font-normal doto  text-[var(--text-primary)] tracking-normal">
+        <h2 className="text-4xl font-normal doto text-[var(--text-primary)] tracking-normal leading-tight">
           Want to go deeper for critical
           <br /> vulnerabilities and attack vectors?
         </h2>
@@ -19,14 +19,12 @@ export default function PricingSection() {
           audit agent-based code reviews
         </p>
       </div>
-      {/* card sould be in center */}
 
+      {/* Cards layout */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 justify-center items-start max-w-4xl mx-auto">
-        {/* ✅ FREE CARD */}
-        <div
-          className="relative bg-white rounded-2xl border border-[#DDE3F7] p-8 shadow-sm h-full
-"
-        >
+
+        {/* FREE CARD */}
+        <div className="relative bg-white rounded-2xl border border-[#DDE3F7] p-8 shadow-sm h-full">
           <p className="text-xs text-[var(--text-secondary)] mb-2">Free Scan</p>
           <p className="text-3xl font-semibold text-black">$0</p>
           <p className="mt-1 text-xs text-[var(--text-secondary)]">
@@ -40,12 +38,7 @@ export default function PricingSection() {
               'Cost estimates',
             ].map((t, i) => (
               <li key={i} className="flex items-center gap-3">
-                <Image
-                  src="/icons/Check.svg"
-                  alt="Check"
-                  width={14}
-                  height={14}
-                />
+                <Image src="/icons/Check.svg" alt="Check" width={14} height={14} />
                 {t}
               </li>
             ))}
@@ -56,34 +49,44 @@ export default function PricingSection() {
           </button>
         </div>
 
-        {/* ✅ FORENSIC CARD */}
+        {/* FORENSIC CARD */}
         <div className="relative z-10">
-          {/* 💎 Diamond — behind but *outside* the blurred box */}
+
+          {/* 💎 Diamond Background */}
           <Image
             src="/icons/Diamond.svg"
             alt="Diamond"
             width={420}
             height={420}
-            className="hidden md:block absolute -right-64 top-0 opacity-70 pointer-events-none select-none z-0"
+            className="
+              hidden md:block
+              absolute
+              -right-80
+              top-1/2
+              -translate-y-1/2
+              opacity-70
+              pointer-events-none
+              select-none
+              z-0
+            "
           />
 
-          {/* 💠 Blurred Card (Blue glass effect) */}
-          <div
-            className="relative bg-transparent border border-[var(--blue-primary)] 
-               backdrop-blur-[40px] shadow-lg rounded-2xl p-8 z-10"
-          >
-            <span
-              className="inline-flex items-center gap-2 text-xs 
-                     bg-[var(--blue-primary)] text-white 
-                     px-3 py-1 rounded-full"
-            >
+          {/* ✅ Mobile-safe alternative diamond */}
+          <div className="md:hidden absolute inset-0 flex justify-center items-start opacity-10 z-0 pointer-events-none">
+            <Image
+              src="/icons/Diamond.svg"
+              alt="Diamond"
+              width={220}
+              height={220}
+              className="object-contain"
+            />
+          </div>
+
+          {/* Blurred Forensic Card */}
+          <div className="relative bg-transparent border border-[var(--blue-primary)] backdrop-blur-[40px] shadow-lg rounded-2xl p-8 z-10">
+            <span className="inline-flex items-center gap-2 text-xs bg-[var(--blue-primary)] text-white px-3 py-1 rounded-full">
               Forensic
-              <Image
-                src="/icons/DiamondSmall.svg"
-                alt="arrowright"
-                width={25}
-                height={25}
-              />
+              <Image src="/icons/DiamondSmall.svg" alt="arrowright" width={25} height={25} />
             </span>
 
             <PaidPricingCard />
@@ -92,8 +95,7 @@ export default function PricingSection() {
       </div>
 
       <p className="mt-10 text-sm text-[var(--text-secondary)] opacity-60 text-center">
-        Need a custom solution? We offer white-label options and API access for
-        platforms.
+        Need a custom solution? We offer white-label options and API access for platforms.
       </p>
     </section>
   );

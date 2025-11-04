@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export interface FeatureCardItem {
   title: string;
-  description: string;
+  description: string[];
   icon: string;
   highlighted?: boolean;
 }
@@ -16,25 +16,25 @@ interface Props {
 export default function FeatureCards({ items }: Props) {
   return (
     <div className="w-full flex flex-col justify-center items-center pb-16 pt-8 mt-2">
-      <h1
-        className="text-3xl font-normal my-12"
-        style={{
-          fontFamily: '"Doto", sans-serif',
-          color: 'var(--black-primary)',
-        }}
-      >
-        Why Bulwark is different ?
-      </h1>
+   <h1
+  className="text-center text-3xl font-normal my-12"
+  style={{
+    fontFamily: '"Doto", sans-serif',
+    color: 'var(--black-primary)',
+  }}
+>
+  Why Bulwark is different ?
+</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full px-4">
+
+      <div className="grid grid-cols-1 2xl:grid-cols-3 gap-8 max-w-6xl w-full px-4">
         {items.map((item, idx) => (
           <div
             key={idx}
             className={`relative rounded-2xl p-6 min-h-[240px] transition-all shadow-sm border flex flex-col justify-between
-              ${
-                item.highlighted
-                  ? 'bg-[#0057ff] text-white shadow-xl scale-[1.03]'
-                  : 'bg-white text-gray-900 border-gray-200 hover:shadow-lg'
+              ${item.highlighted
+                ? 'bg-[#0057ff] text-white shadow-xl scale-[1.03]'
+                : 'bg-white text-gray-900 border-gray-200 hover:shadow-lg'
               }`}
           >
             {/* Title — left aligned, dotted font */}
@@ -64,13 +64,16 @@ export default function FeatureCards({ items }: Props) {
             </div>
 
             {/* Description — left aligned */}
-            <p
-              className={`mt-3 text-sm leading-relaxed pr-2
-                ${item.highlighted ? 'opacity-95' : 'text-gray-600 opacity-80'}
-              `}
-            >
-              {item.description}
-            </p>
+            <div className={`mt-3 space-y-1 pr-2
+  ${item.highlighted ? 'opacity-95' : 'text-gray-600 opacity-80'}
+`}>
+              {item.description.map((line, i) => (
+                <p key={i} className="text-sm leading-relaxed">
+                  {line}
+                </p>
+              ))}
+            </div>
+
           </div>
         ))}
       </div>

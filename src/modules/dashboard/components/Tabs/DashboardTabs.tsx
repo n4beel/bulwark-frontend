@@ -1,13 +1,13 @@
 // components/dashboard/DashboardTabs.tsx
 'use client';
 
-import StaticAnalysisReportDisplay from '@/components/StaticAnalysisReportDisplay';
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import ReportsPage from '@/app/reports/page';
-import RepoInputSection from '@/shared/components/RepoInputSection';
+import StaticAnalysisReportDisplay from '@/components/StaticAnalysisReportDisplay';
 import { staticAnalysisApi } from '@/services/api';
+import RepoInputSection from '@/shared/components/RepoInputSection';
 import { StaticAnalysisReport } from '@/types/api';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 import DashboardHeroHeader from '../Hero/DashboardHeroHeader';
 
 interface DashboardTabsProps {
@@ -85,19 +85,14 @@ const DashboardTabs = ({ handlers, initialReportId }: DashboardTabsProps) => {
     <div
       className="
   relative w-full 
-  max-w-[95%]         /* default mobile */
-  sm:max-w-[90%]      /* small screens */
-  md:max-w-[90%]      /* medium screens */
-  lg:max-w-[90%]      /* large screens */
-  xl:max-w-[90%]      /* extra large screens */
-  2xl:max-w-[80%]     /* ultra wide screens */
-  mx-auto px-6 min-h-[600px] pt-0
+
+  mx-auto px-0 min-h-[600px] pt-0
 "
     >
       {activeTab !== Tab.REPORT_DETAIL && <DashboardHeroHeader />}
       <div className="py-12 h-full overflow-y-auto pb-28">
         {activeTab === Tab.ANALYZE && (
-          <div className="w-4/6 mx-auto">
+          <div className="w-full max-w-[95%] md:max-w-[90%] xxl:max-w-[80%] mx-auto">
             <RepoInputSection
               onConnectGitHub={dashboardHandlers.onConnectGitHub} // ✅ Uses "connect" mode
               onUploadZip={dashboardHandlers.onUploadZip}
@@ -154,57 +149,79 @@ const DashboardTabs = ({ handlers, initialReportId }: DashboardTabsProps) => {
           </div>
         )}
       </div>
+{/* Tabs - Only show main tabs, hide when viewing detail */}
+<div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full flex justify-center z-50 pointer-events-none">
+  <div
+    className="
+      pointer-events-auto
+      relative inline-flex rounded-full overflow-hidden
+      border border-[#A8C3FF]
+      shadow-[0_17px_25px_rgba(107,134,194,0.32)]
+      bg-white/40 backdrop-blur-xl
 
-      {/* Tabs - Only show main tabs, hide when viewing report details */}
+      /* ✅ Width stays centered */
+      max-w-[90%] md:max-w-none
+    "
+  >
 
-      <div className="fixed bottom-8 left-1/2 -translate-x-1/2">
-        <div className="relative inline-flex rounded-full overflow-hidden border border-[#A8C3FF] shadow-[0_17px_25px_rgba(107,134,194,0.32)]">
-          {/* ✅ GIF BACKGROUND */}
-          <img
-            src={'/videos/DockNavGIF.gif'}
-            alt="Animated background"
-            className="absolute w-full h-full object-cover  z-0 pointer-events-none"
-          />
-          {/* Buttons (content stays same) */}
-          <div className="relative z-20 flex gap-2 rounded-full p-2 bg-white/40">
-            {TAB_CONFIG.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  if (tab.id !== Tab.MARKETPLACE) setActiveTab(tab.id);
-                  window.history.replaceState({}, '', '/dashboard');
-                }}
-                disabled={tab.id === Tab.MARKETPLACE}
-                className={`px-6 py-3 rounded-full font-normal transition-all 
-    ${
-      tab.id === Tab.MARKETPLACE
-        ? 'cursor-not-allowed opacity-50 text-[var(--gray-medium)]'
-        : 'cursor-pointer'
-    } 
-    ${
-      activeTab === tab.id ||
-      (activeTab === Tab.REPORT_DETAIL && tab.id === Tab.REPORTS)
-        ? 'bg-[var(--blue-primary)] text-white'
-        : 'text-[var(--gray-medium)]'
-    }`}
-              >
-                <div className="flex items-center gap-2">
-                  {tab.icon && (
-                    <Image
-                      src={tab.icon}
-                      alt={tab.label}
-                      width={20}
-                      height={20}
-                      className={activeTab === tab.id ? ' text-white' : ''}
-                    />
-                  )}
-                  {tab.label}
-                </div>
-              </button>
-            ))}
+    {/* ✅ Animated GIF Background */}
+    <img
+      src="/videos/DockNavGIF.gif"
+      alt="dock background"
+      className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+    />
+
+    {/* ✅ Content — Responsive padding */}
+    <div
+      className="
+        relative z-20 flex gap-2 rounded-full
+        p-2 md:p-2 lg:p-2
+      "
+    >
+      {TAB_CONFIG.map((tab) => (
+        <button
+          key={tab.id}
+          onClick={() => {
+            if (tab.id !== Tab.MARKETPLACE) setActiveTab(tab.id);
+            window.history.replaceState({}, '', '/dashboard');
+          }}
+          disabled={tab.id === Tab.MARKETPLACE}
+          className={`
+            rounded-full font-normal transition-all text-nowrap
+
+            /* ✅ Responsive sizing */
+            px-3 py-2 text-xs
+            sm:px-4 sm:py-2.5 sm:text-sm
+            md:px-5 md:py-3 md:text-sm
+            lg:px-6 lg:py-3 lg:text-base
+
+            ${
+              tab.id === Tab.MARKETPLACE
+                ? "cursor-not-allowed opacity-50 text-[var(--gray-medium)]"
+                : "cursor-pointer"
+            }
+            ${
+              activeTab === tab.id ||
+              (activeTab === Tab.REPORT_DETAIL && tab.id === Tab.REPORTS)
+                ? "bg-[var(--blue-primary)] text-white"
+                : "text-[var(--gray-medium)]"
+            }
+          `}
+        >
+          <div className="flex items-center gap-2">
+            {tab.icon && (
+              <Image src={tab.icon} alt={tab.label} width={18} height={18} />
+            )}
+            {tab.label}
           </div>
-        </div>
-      </div>
+        </button>
+      ))}
+    </div>
+  </div>
+</div>
+
+
+
     </div>
   );
 };

@@ -1,125 +1,146 @@
-'use client';
+"use client";
 
 import { auth } from '@/lib/firebase';
-import { signOut } from 'firebase/auth';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import UpgradeForensicModal from '@/shared/components/UpgradeForensicModal';
 import { logout } from '@/store/slices/authSlice';
 import { RootState } from '@/store/store';
-import UpgradeForensicModal from '../../shared/components/UpgradeForensicModal';
+import { signOut } from 'firebase/auth';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function DashboardNavbar() {
   const dispatch = useDispatch();
   const router = useRouter();
-
   const user = useSelector((state: RootState) => state.auth.user);
 
   const [openUpgrade, setOpenUpgrade] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   const handleLogout = async () => {
     try {
-      router.replace('/'); // replaces history so user can’t go back
+      router.replace('/');
       setTimeout(async () => {
         await signOut(auth);
         dispatch(logout());
-      }, 1000);
+      }, 300);
     } catch (err) {
       console.error('Logout failed:', err);
     }
   };
 
   return (
-    <header className="h-20 border-b border-[var(--border-color)] bg-[var(--background)] flex items-center px-10 relative">
-      {/* LEFT SECTION */}
-      <div className="flex items-center">
-        {/* Upgrade Button */}
+    <>
+      <header className="h-20 border-b border-[var(--border-color)] bg-[var(--background)] flex items-center px-6 md:px-10 relative">
+
+        {/* Mobile Hamburger */}
         <button
-          className="flex items-center gap-2 -mr-6 px-4 py-2 rounded-full
-          bg-[var(--text-secondary)]
-          text-[var(--text-inverse)] text-xs border cursor-pointer
-          shadow-sm  transition z-30"
-          onClick={() => setOpenUpgrade(true)}
+          className="md:hidden mr-3 inline-flex h-9 w-9 items-center justify-center rounded-md border border-[var(--border-color)]"
+          onClick={() => setMobileOpen((v) => !v)}
         >
-          Upgrade to Forensic
-          <Image
-            src="/icons/WhiteDiamond.svg"
-            alt="upgrade"
-            width={15}
-            height={15}
-          />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+            <path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
         </button>
 
-        {/* Scans Left — OVERLAP  */}
-        <div
-          className="flex items-center gap-2   pr-4 pl-6 py-2 rounded-full
-          bg-[var(--card-accent)] border border-[var(--blue-secondary)]
-          text-xs text-[var(--black)] shadow-sm"
-        >
-          <Image src="/icons/BlueDot.svg" alt="dot" width={15} height={15} />
-          1/5 Scans Left
-        </div>
-      </div>
-
-      {/* CENTER LOGO */}
-      <div
-        className="absolute left-1/2 -translate-x-1/2 cursor-pointer "
-        onClick={() => {
-          // router.push("/dashboard");
-          handleLogout();
-        }}
-      >
-        <Image src="/icons/Bulwark.svg" alt="Bulwark" width={130} height={34} />
-      </div>
-
-      {/* RIGHT SECTION */}
-      {user && (
-        <div className="ml-auto flex items-center ">
-          {/* User Profile with Photo */}
-          <div
-            className="flex items-center gap-2 px-4 py-2 rounded-full
-            bg-white border border-[var(--blue-light)]
-            text-xs text-[var(--text-primary)] shadow-sm -mr-6 z-30"
+        {/* LEFT (Desktop Overlap preserved) */}
+        <div className="hidden md:flex items-center">
+          <button
+            className="flex items-center gap-2 -mr-6 px-4 py-2 rounded-full
+            bg-[var(--text-secondary)] text-[var(--text-inverse)] text-xs border cursor-pointer shadow-sm transition z-30"
+            onClick={() => setOpenUpgrade(true)}
           >
-            {user.photoURL ? (
-              <Image
-                src={user.photoURL}
-                alt="avatar"
-                width={15}
-                height={15}
-                className="rounded-full"
-              />
-            ) : (
-              <div className="w-5 h-5 rounded-full bg-[var(--blue-primary)] text-white flex items-center justify-center text-[10px] uppercase">
-                {user.displayName?.[0] || 'U'}
-              </div>
-            )}
+            Upgrade to Forensic
+            <Image src="/icons/WhiteDiamond.svg" alt="upgrade" width={15} height={15} />
+          </button>
 
-            {user.displayName || user.email}
+          <div
+            className="flex items-center gap-2 pr-4 pl-6 py-2 rounded-full
+            bg-[var(--card-accent)] border border-[var(--blue-secondary)]
+            text-xs text-[var(--black)] shadow-sm"
+          >
+            <Image src="/icons/BlueDot.svg" alt="dot" width={15} height={15} />
+            1/5 Scans Left
+          </div>
+        </div>
+
+        {/* CENTER LOGO */}
+        <div className="absolute left-1/2 -translate-x-1/2 cursor-pointer" onClick={() => router.push('/dashboard')}>
+          <Image src="/icons/Bulwark.svg" alt="Bulwark" width={130} height={34} />
+        </div>
+
+        {/* RIGHT (Desktop Overlap preserved) */}
+        {user && (
+          <div className="hidden md:flex ml-auto items-center">
+            <div
+              className="flex items-center gap-2 px-4 py-2 rounded-full
+              bg-white border border-[var(--blue-light)]
+              text-xs text-[var(--text-primary)] shadow-sm -mr-6 z-30"
+            >
+              {user.photoURL ? (
+                <Image src={user.photoURL} alt="avatar" width={15} height={15} className="rounded-full" />
+              ) : (
+                <div className="w-5 h-5 rounded-full bg-[var(--blue-primary)] text-white flex items-center justify-center text-[10px] uppercase">
+                  {user.displayName?.[0] || 'U'}
+                </div>
+              )}
+              {user.displayName || user.email}
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 pr-4 pl-8 py-2 rounded-full
+              bg-red-100 text-red-600 text-xs border shadow-sm
+              cursor-pointer hover:opacity-80 transition"
+            >
+              <Image src="/icons/Logout.svg" alt="logout" width={14} height={14} />
+              Logout
+            </button>
+          </div>
+        )}
+      </header>
+
+      {/* ✅ MOBILE MENU */}
+      {mobileOpen && (
+        <div className="md:hidden border-b border-[var(--border-color)] bg-white/95 backdrop-blur p-4 flex flex-col gap-3">
+
+          {/* Upgrade */}
+          <button
+            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--text-secondary)] text-white text-sm shadow-sm"
+            onClick={() => {
+              setOpenUpgrade(true);
+              setMobileOpen(false);
+            }}
+          >
+            Upgrade to Forensic
+            <Image src="/icons/WhiteDiamond.svg" alt="upgrade" width={15} height={15} />
+          </button>
+
+          {/* Scans Left (same copy, same vibe) */}
+          <div className="flex items-center justify-center gap-2 text-sm py-2 rounded-full bg-[var(--card-accent)] border border-[var(--blue-secondary)]">
+            <Image src="/icons/BlueDot.svg" alt="dot" width={15} height={15} />
+            1/5 Scans Left
           </div>
 
-          {/* Logout — OVERLAP */}
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 pr-4 pl-8 py-2 rounded-full
-            bg-red-100 text-red-600 text-xs border shadow-sm
-            cursor-pointer hover:opacity-80 transition"
-          >
-            <Image
-              src="/icons/Logout.svg"
-              alt="logout"
-              width={14}
-              height={14}
-            />
-            Logout
-          </button>
+          {user && (
+            <>
+              <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white border border-[var(--blue-light)] text-sm">
+                {user.displayName || user.email}
+              </div>
+
+              <button
+                onClick={handleLogout}
+                className="w-full px-4 py-2 rounded-full bg-red-100 text-red-600 text-sm"
+              >
+                Logout
+              </button>
+            </>
+          )}
         </div>
       )}
 
-      <UpgradeForensicModal
-        open={openUpgrade}
-        onClose={() => setOpenUpgrade(false)}
-      />
-    </header>
+      <UpgradeForensicModal open={openUpgrade} onClose={() => setOpenUpgrade(false)} />
+    </>
   );
 }

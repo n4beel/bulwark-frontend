@@ -26,27 +26,22 @@ const steps = [
     image: '/icons/HowItWorkStep3.svg',
   },
 ];
-
 export default function HowItWorks() {
   return (
-    <div className="mt-20 w-4/5 mx-auto" id="how-it-works">
-      <h1
-        className="text-3xl font-normal"
-        style={{
-          fontFamily: '"Doto", sans-serif',
-          color: 'var(--black-primary)',
-        }}
+    <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24" id="how">
+      <h2
+        className="text-center text-2xl md:text-3xl font-normal mb-12"
+        style={{ fontFamily: '"Doto", sans-serif' }}
       >
         How It Works
-      </h1>
+      </h2>
 
-      {steps.map((s, i) => (
-        <HowStepContainer
-          key={i}
-          step={s}
-          reversed={false} // alternate layout
-        />
-      ))}
-    </div>
+      <div className="flex flex-col gap-10">
+        {steps.map((s, i) => (
+          <HowStepContainer key={i} step={s} reversed={false} />
+        ))}
+      </div>
+    </section>
   );
 }
+

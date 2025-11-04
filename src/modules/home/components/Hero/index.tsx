@@ -10,27 +10,22 @@ interface HeroSectionProps {
   onAnalyze: (input: string) => void;
 }
 
-const HeroSection = ({
+export default function HeroSection({
   onConnectGitHub,
   onUploadZip,
   onAnalyze,
-}: HeroSectionProps) => {
+}: HeroSectionProps) {
   return (
-    <section className="hero-container  overflow-hidden w-full " id="analyze">
-      {/* Hero Header */}
-      <div className="max-full mx-auto   pt-16 pb-0">
+    <section id="analyze" className="w-full overflow-hidden pt-24">
+      <div className="mx-auto w-full px-4 md:px-6">
         <HeroHeader />
+        <HeroBody
+          onConnectGitHub={onConnectGitHub}
+          onUploadZip={onUploadZip}
+          onAnalyze={onAnalyze}
+        />
+        <HeroFooter />
       </div>
-
-      {/* Hero Body */}
-      <HeroBody
-        onConnectGitHub={onConnectGitHub}
-        onUploadZip={onUploadZip}
-        onAnalyze={onAnalyze}
-      />
-      <HeroFooter />
     </section>
   );
-};
-
-export default HeroSection;
+}

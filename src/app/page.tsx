@@ -1,8 +1,6 @@
 'use client';
 
 import { useUploadFlow } from '@/hooks';
-import { useEffect, useState } from 'react';
-import Image from 'next/image';
 import AuditorMarketplace from '@/modules/home/components/AuditorMarketplace';
 import BulwarkAnimated from '@/modules/home/components/BulwarkAnimated';
 import FeatureCards from '@/modules/home/components/FeatureCards';
@@ -12,6 +10,7 @@ import NewsletterSection from '@/modules/home/components/NewsLetter';
 import PricingSection from '@/modules/home/components/Pricing';
 import Web3TeamsSection from '@/modules/home/components/Web3TeamSection';
 import { features, teamItems } from '@/modules/home/constants';
+import { fetchRepoFilesPublic } from '@/services/api';
 import Footer from '@/shared/components/Footer';
 import Navbar from '@/shared/components/Navbar/NavBar';
 import ReceiptModal from '@/shared/components/Receipt/Receipt';
@@ -20,8 +19,9 @@ import GitHubFlowModal from '@/shared/components/UploadGihubFlow/GitHubModalFlow
 import { useAppSelector } from '@/shared/hooks/useAppSelector';
 import { GitHubFlowStep, useGitHubFlow } from '@/shared/hooks/useGitHubFlow';
 import { RootState } from '@/store/store';
-import { fetchRepoFilesPublic } from '@/services/api';
 import { handleGitHubLogin } from '@/utils/auth';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 type AppState =
   | 'auth'
@@ -117,7 +117,7 @@ export default function Home() {
     }
   }, [handleAuthSuccess, setStep]);
   return (
-    <div className="min-h-screen bg-gray-50  ">
+    <div className="min-h-screen bg-white ">
       <Navbar />
 
       <HeroSection
@@ -160,28 +160,43 @@ export default function Home() {
           }
         }}
       />
-      <div className="flex justify-center items-center w-full h-[150px]">
+
+ 
+
+      <div className="w-full flex justify-center items-center h-auto py-8 px-4 mt-10 lg:mt-26 5xl:mt-40">
         <Image
           src="/icons/BulwarkHeading.svg"
-          alt="Bulwark Background"
-          width={800} // adjust size as needed
+          alt="Bulwark Heading"
+          width={800}
           height={200}
+          className="w-full max-w-[800px] h-auto"
+          priority
         />
       </div>
 
-      <BulwarkAnimated />
-      <FeatureCards items={features} />
-      <HowItWorks />
-      <Web3TeamsSection
-        title="Built for Modern Web3 Teams"
-        subtitle="Serving all streams of contributors across Solana"
-        items={teamItems}
-      />
-      <AuditorMarketplace />
-      <PricingSection />
-      <NewsletterSection />
-      <Footer />
 
+
+      <BulwarkAnimated />
+
+        <FeatureCards items={features} />
+
+        <HowItWorks />
+      
+        <Web3TeamsSection
+          title="Built for Modern Web3 Teams"
+          subtitle="Serving all streams of contributors across Solana"
+          items={teamItems}
+        />
+            
+        <AuditorMarketplace />
+   
+        <PricingSection />
+                
+        <NewsletterSection />
+       
+        <Footer />
+  <div className="hidden">       </div>
+ 
       {isUploadFlowOpen && (
         <UploadFlowModal
           step={step}

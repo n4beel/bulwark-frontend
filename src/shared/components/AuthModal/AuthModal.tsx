@@ -1,13 +1,13 @@
 'use client';
 
 import { auth, googleProvider } from '@/lib/firebase';
-import { signInWithPopup } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
-import { useCallback } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { setUser } from '@/store/slices/authSlice';
 import { handleGitHubLogin } from '@/utils/auth';
+import { signInWithPopup } from 'firebase/auth';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 
 interface Props {
   open: boolean;
@@ -63,8 +63,8 @@ export default function AuthModal({
   }, [redirectPath]);
 
   return (
-    <div className="fixed inset-0 bg-black/30 backdrop-blur-md z-50 flex items-center justify-center">
-      <div className="bg-[var(--white)] rounded-2xl shadow-2xl p-10 max-w-lg w-full relative text-center border border-[var(--blue-primary)]">
+   <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+    <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 sm:p-10 text-center border border-[var(--blue-primary)] shadow-xl">
         <button
           onClick={onClose}
           className="absolute top-4 cursor-pointer right-4 text-[var(--gray-medium)] hover:text-[var(--gray-dark)] transition"

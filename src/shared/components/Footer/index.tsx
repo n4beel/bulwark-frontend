@@ -5,67 +5,76 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="relative w-11/12 mx-auto bg-[var(--blue-primary)] text-white overflow-hidden pb-0">
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[var(--blue-dark)]/20 via-transparent to-transparent pointer-events-none" />
+    <footer className="relative w-11/12 mx-auto bg-[var(--blue-primary)] text-white overflow-hidden pb-0 rounded-t-2xl">
 
-      {/* Content */}
+      {/* Subtle gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--blue-dark)]/30 via-transparent to-transparent pointer-events-none" />
+
+      {/* Content Wrapper */}
       <div className="relative w-full mx-auto px-6 py-16">
-        <div className="flex flex-col md:flex-row justify-between gap-10">
-          {/* Left — Company info */}
-          <div className="space-y-3 max-w-[260px]">
+
+        <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-8">
+
+          {/* Left Section */}
+          <div className="space-y-4 max-w-[260px]">
             <p className="text-sm leading-snug opacity-90">
-              Instant pre-audit reports for smart contracts. Built for modern
-              web3 teams.
+              Instant pre-audit reports for smart contracts.
+              Built for modern web3 teams.
             </p>
 
-            <div className="flex gap-4 mt-4">
+            {/* Social Icons */}
+            <div className="flex gap-4 mt-2">
               <Link href="#" aria-label="Twitter">
                 <Image
                   src="/icons/TwitterSmall.svg"
                   alt="Twitter"
-                  width={18}
-                  height={18}
-                  className="hover:opacity-80 transition"
+                  width={20}
+                  height={20}
+                  className="hover:opacity-80 transition cursor-pointer"
                 />
               </Link>
               <Link href="#" aria-label="GitHub">
                 <Image
                   src="/icons/GitHubSmall.svg"
                   alt="GitHub"
-                  width={18}
-                  height={18}
-                  className="hover:opacity-80 transition"
+                  width={20}
+                  height={20}
+                  className="hover:opacity-80 transition cursor-pointer"
                 />
               </Link>
             </div>
           </div>
 
-          {/* Right — Queries */}
-          <div className="space-y-3 max-w-[260px]">
+          {/* Right Section */}
+          <div className="space-y-2 max-w-[260px] md:text-right text-left">
             <p className="text-sm leading-snug opacity-90">
-              For queries and information please reach us at:
-              <br />
-              <span className="font-normal mt-4 ">bulwark@blockapex.io</span>
+              For queries and information, contact:
+            </p>
+            <p className="text-sm font-medium">
+              bulwark@blockapex.io
             </p>
           </div>
+
         </div>
       </div>
 
-      {/* Watermark */}
-      <div className="flex justify-center items-end opacity-10 pointer-events-none">
+      {/* ✅ Watermark – remains large but centered + responsive */}
+      <div className="flex justify-center items-end opacity-15 pointer-events-none w-full">
         <Image
           src="/icons/BulwarkWatermark.svg"
           alt="Bulwark watermark"
-          width={1200}
-          height={500}
+          width={1000}
+          height={400}
+          className="w-full max-w-[900px] object-contain"
           priority
         />
       </div>
-      <div className="w-[97%] mx-auto border-t border-white/20 mt-20 " />
 
-      {/* Bottom Text */}
-      <div className="text-start text-xs text-white/70 py-6 select-none px-6">
+      {/* Divider */}
+      <div className="w-[95%] mx-auto border-t border-white/20 mt-12" />
+
+      {/* Bottom Legal */}
+      <div className="text-start md:text-right text-xs text-white/70 py-6 select-none px-6">
         © 2025 Bulwark. All rights reserved.
       </div>
     </footer>

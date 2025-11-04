@@ -11,61 +11,59 @@ export default function BulwarkAnimated() {
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            // ✅ Start animation once when visible
-            lottieRef.current?.play();
-          } else {
-            // ✅ Stop when user scrolls away
-            lottieRef.current?.stop();
-          }
-        });
+        entries.forEach((entry) =>
+          entry.isIntersecting ? lottieRef.current?.play() : lottieRef.current?.stop()
+        );
       },
-      { threshold: 0.4 }, // 40% visible
+      { threshold: 0.4 }
     );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
+    if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
 
-  return (
-    <>
+return (
+  <div
+    ref={containerRef}
+    className="relative w-full flex items-center justify-center py-12 md:py-20"
+  >
+    {/* Responsive Full-Width Animation Wrapper */}
+    <div className="relative w-full flex items-center justify-center">
+      
+      {/* Foreground Shield */}
       <div
-        ref={containerRef}
-        className="relative mx-auto flex items-center justify-center my-30"
+        className="
+          relative 
+          w-[50vw] max-w-[260px]   /* ✅ on mobile: uses half screen, but caps size */
+          sm:w-[45vw] sm:max-w-[300px]
+          md:w-[300px] md:h-[300px]
+          aspect-square flex items-center justify-center
+        "
       >
-        {/* Small WebM foreground */}
-        <div className="relative w-[270px] h-[270px] flex items-center justify-center">
-          <video
-            className="absolute inset-0 w-full h-full object-contain"
-            autoPlay={false}
-            loop={false}
-            muted
-            playsInline
-          >
-            <source src="/videos/BulwarkAnimation.webm" type="video/webm" />
-          </video>
+        <video
+          className="absolute inset-0 w-full h-full object-contain"
+          muted
+          playsInline
+          autoPlay
+          loop
+        >
+          <source src="/videos/BulwarkAnimation.webm" type="video/webm" />
+        </video>
 
-          {/* Giant Lottie overlay (plays on scroll) */}
-          <Lottie
-            lottieRef={lottieRef}
-            animationData={animationJson}
-            loop={false}
-            autoplay={false}
-            className="absolute pointer-events-none"
-            style={{
-              width: '1100px',
-              height: '1100px',
-              top: '50%',
-              left: '70%',
-              transform: 'translate(-50%, -50%)',
-            }}
-          />
-        </div>
+        {/* Glow Lottie */}
+        <Lottie
+          lottieRef={lottieRef}
+          animationData={animationJson}
+          loop={false}
+          autoplay={false}
+          className="absolute pointer-events-none opacity-90"
+          style={{
+            width: 'clamp(250px, 90vw, 1200px)',   // ✅ now scales full width on phones
+            height: 'clamp(250px, 90vw, 1200px)',
+          }}
+        />
       </div>
-    </>
-  );
+    </div>
+  </div>
+);
+
 }

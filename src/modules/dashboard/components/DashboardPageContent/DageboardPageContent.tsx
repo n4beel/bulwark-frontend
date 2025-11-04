@@ -1,12 +1,12 @@
 'use client';
 
-import { useSelector } from 'react-redux';
-import { useRouter, useSearchParams } from 'next/navigation';
 import DashboardHero from '@/modules/dashboard/components/Hero';
 import DashboardNavbar from '@/modules/dashboard/components/NavBar/DashboardNavBar';
 import AuthModal from '@/shared/components/AuthModal/AuthModal';
 import Loading from '@/shared/components/Loading';
 import { RootState } from '@/store/store';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 export default function DashboardPageContent() {
   const router = useRouter();

@@ -1,4 +1,3 @@
-// components/shared/RepoInputSection.tsx
 'use client';
 
 import Button from '@/components/ui/Button';
@@ -14,14 +13,14 @@ interface RepoInputSectionProps {
   className?: string;
 }
 
-const RepoInputSection = ({
+export default function RepoInputSection({
   onConnectGitHub,
   onUploadZip,
   onAnalyze,
   showStats = true,
   compact = false,
   className = '',
-}: RepoInputSectionProps) => {
+}: RepoInputSectionProps) {
   const [repoInput, setRepoInput] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
@@ -38,7 +37,6 @@ const RepoInputSection = ({
       } finally {
         setIsAnalyzing(false);
       }
-      return;
     }
   };
 
@@ -55,7 +53,7 @@ const RepoInputSection = ({
           compact ? 'p-6' : 'p-8'
         }`}
       >
-        {/* Input Field */}
+        {/* Input */}
         <div className="mb-6">
           <Input
             iconSvg="/icons/LinkIcon.svg"
@@ -69,14 +67,15 @@ const RepoInputSection = ({
           />
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-4 mb-4">
+        {/* ✅ Responsive Buttons */}
+      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4">
+
           <Button
             variant="outline"
             icon="/icons/GitHubIcon.svg"
             iconPosition="left"
             onClick={onConnectGitHub}
-            className="flex-1"
+          className="w-full md:w-auto"
             disabled={isAnalyzing}
           >
             Connect GitHub
@@ -87,7 +86,7 @@ const RepoInputSection = ({
             icon="/icons/UploadIcon.svg"
             iconPosition="left"
             onClick={onUploadZip}
-            className="flex-1"
+          className="w-full md:w-auto"
             disabled={isAnalyzing}
           >
             Upload zip
@@ -97,7 +96,7 @@ const RepoInputSection = ({
             variant="outline"
             onClick={handleAnalyze}
             disabled={!repoInput.trim() || isAnalyzing}
-            className="flex-1 relative"
+            className="flex-1 cursor-pointer relative"
           >
             {isAnalyzing ? (
               <div className="flex items-center justify-center gap-2">
@@ -114,12 +113,12 @@ const RepoInputSection = ({
                     r="10"
                     stroke="currentColor"
                     strokeWidth="4"
-                  ></circle>
+                  />
                   <path
                     className="opacity-75"
                     fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
+                  />
                 </svg>
                 Analyzing...
               </div>
@@ -130,7 +129,7 @@ const RepoInputSection = ({
         </div>
 
         {/* Info Text */}
-        <p className="text-center text-[var(--text-secondary)] text-sm mt-4">
+        <p className="text-center text-[var(--text-secondary)] text-sm mt-3">
           <span className="inline-flex items-center gap-1">
             <span className="inline-block w-1.5 h-1.5 bg-[var(--green-medium)] rounded-full"></span>
             Only available for rust (solana) codebases
@@ -142,19 +141,17 @@ const RepoInputSection = ({
         </p>
       </div>
 
-      {/* Stats Badge (Optional) */}
+      {/* Stats Badge */}
       {showStats && (
         <div className="mt-5 flex justify-center">
           <div className="inline-flex items-center gap-2 px-6 py-3 bg-[var(--green-light)] rounded-full shadow-md border border-[var(--border-color)]">
             <span className="inline-block w-2 h-2 bg-[var(--green-medium)] rounded-full"></span>
             <span className="text-[var(--text-primary)] font-semibold">
-              19,568 Repos Analyzed
+              100 Repos Analyzed
             </span>
           </div>
         </div>
       )}
     </div>
   );
-};
-
-export default RepoInputSection;
+}

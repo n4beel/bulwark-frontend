@@ -4,20 +4,20 @@ export const features: FeatureCardItem[] = [
   {
     title: 'Solana-specific signals',
     description:
-      'Bulwark parses Solana-native primitives; compute budgets, rent behavior, signer/writable flags, and CPI signer calls to surface patterns that directly affect audit scope and validator behavior. You see the same risk dimensions an auditor would flag before manual review.',
+      ['Bulwark parses Solana-native primitives; compute budgets, rent behavior, signer/writable flags, and CPI signer calls to surface patterns that directly affect audit scope and validator behavior. You see the same risk dimensions an auditor would flag before manual review.'],
     icon: '/icons/Badge.svg',
   },
   {
     title: 'Calibrated ranges',
     description:
-      'Each complexity range (p50/p90) is evidence-backed. Bulwark shows what drives the number: so auditors can trace effort estimates to concrete code realities instead of arbitrary scoring.',
+    [  'Each complexity range (p50/p90) is evidence-backed.',' Bulwark shows what drives the number: so auditors can trace effort estimates to concrete code realities instead of arbitrary scoring.'],
     icon: '/icons/Dart.svg',
     highlighted: true,
   },
   {
     title: 'Privacy-End-to-end Privacy',
     description:
-      'For all scans, Bulwark enlists the encryption infrastructure offered by Arcium; every scan is privately processed to Arcium MPCs that manage the compute and deliver results to the user in the form of a commit-bound receipt that is verifiable on-chain. Private, end-to-end  without ever seeing/revealing raw source, preserving both client code integrity and evidence credibility.',
+     [ 'For all scans, Bulwark enlists the encryption infrastructure offered by Arcium; every scan is privately processed to Arcium MPCs that manage the compute and deliver results to the user in the form of a commit-bound receipt that is verifiable on-chain. Private, end-to-end  without ever seeing/revealing raw source, preserving both client code integrity and evidence credibility.'],
     icon: '/icons/Shield.svg',
   },
 ];
