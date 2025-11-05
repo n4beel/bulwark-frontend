@@ -1,9 +1,9 @@
 'use client';
 
-import { useSelector } from 'react-redux';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { RootState } from '@/store/store';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 // ✅ Import the API
 import { handleGitHubLogin } from '@/utils/auth';
 import StepResults from './StepResults';
@@ -64,7 +64,8 @@ export default function ReceiptModal({
 
   return (
     <div className="fixed inset-0 z-[10000] bg-black/40 backdrop-blur-sm flex items-center justify-center overflow-hidden">
-      <div className="relative w-full max-w-[660px] h-[700px]">
+    <div className="relative w-[95%] max-w-[660px] h-[80vh] md:h-[700px]">
+
         {/* Close */}
         <button
           onClick={onClose}
@@ -93,9 +94,9 @@ export default function ReceiptModal({
           }}
         >
           {/* Scrollable results */}
-          <div className="flex-1 overflow-hidden bg-white">
-            <StepResults report={report} />
-          </div>
+         <div className="flex-1 overflow-y-auto md:overflow-hidden bg-white scroll-smooth overscroll-contain">
+  <StepResults report={report} />
+</div>
 
           {/* Sticky Receipt Footer */}
           <div

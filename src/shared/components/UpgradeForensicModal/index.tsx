@@ -22,13 +22,13 @@ export default function UpgradeForensicModal({
         fullScreen ? 'fixed inset-0' : 'absolute inset-0'
       } bg-black/40 backdrop-blur-sm z-[999] flex items-center justify-center p-4`}
     >
-      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-10">
+      <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-3xl p-10 max-h-[90vh] overflow-visible">
         {/* Close Btn */}
         <button
           onClick={onClose}
           aria-label="Close"
           type="button"
-          className="absolute -top-2 -right-2 z-[10000] w-6 h-6 bg-white border border-gray-300 shadow cursor-pointer rounded-full flex items-center justify-center hover:bg-gray-200 transition"
+          className="absolute -top-2 -right-2 z-[20000] w-6 h-6 bg-white border border-gray-300 shadow cursor-pointer rounded-full flex items-center justify-center hover:bg-gray-200 transition"
         >
           <svg
             viewBox="0 0 24 24"
@@ -42,14 +42,14 @@ export default function UpgradeForensicModal({
           </svg>
         </button>
         {/* Title */}
-        <h2 className="text-center text-[28px] font-semibold doto text-[#0F172A] mb-10">
+        <h2 className="text-center text-[28px] font-semibold doto text-[#0F172A] mb-4 md:mb-10">
           Upgrade to Forensic
         </h2>
 
         {/* Body Layout */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0  md:gap-10">
           {/* ✅ Left Card */}
-          <div className="bg-[var(--gray-light)]/40 rounded-2xl  pb-6 flex flex-col items-center justify-center">
+          <div className="bg-[var(--gray-light)]/40 rounded-2xl pb-2  md:pb-6 flex flex-col items-center justify-center">
             {/* Icon */}
 
             <Image

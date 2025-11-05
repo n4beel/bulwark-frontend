@@ -26,7 +26,7 @@ export default function ModalHeader({ step, onClose }: Props) {
       </div>
 
       {/* Tabs */}
-      <div className="flex justify-between px-10 pt-2 pb-2">
+      <div className="flex justify-between px-2 md:px-10 pt-2 pb-2">
         {steps.map((label) => {
           const isActive =
             (step === 'upload' && label === 'Upload') ||
@@ -37,9 +37,10 @@ export default function ModalHeader({ step, onClose }: Props) {
             <div key={label} className="flex flex-col items-center">
               <span
                 className={`text-[13px] no-underline ${
-                  isActive
-                    ? 'text-[var(--navbar-active)] font-medium'
-                    : 'text-[var(--navbar-inactive)] font-normal'
+         
+                  'text-[var(--blue-primary)] font-medium'
+
+
                 }`}
               >
                 {label}

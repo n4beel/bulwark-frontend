@@ -1,10 +1,10 @@
 'use client';
 
+import { StaticAnalysisReport } from '@/types/api';
 import { getScoreColor } from '@/utils';
 import { BarChart3, Brain, Cpu, XCircle } from 'lucide-react';
-import { useState } from 'react';
 import Image from 'next/image';
-import { StaticAnalysisReport } from '@/types/api';
+import { useState } from 'react';
 import AIAnalysisTab from '../modules/reports/components/AiAnalysis';
 import ScoreCards from '../modules/reports/components/ScoreCards';
 import AuditEffortCard from '../shared/components/AuditEffortCard';
@@ -289,100 +289,105 @@ export default function StaticAnalysisReportDisplay({
     <div className="w-full  ">
       <div className="bg-white rounded-lg shadow-lg ">
         {/* Header */}
-        <div className="border-b border-gray-200 p-6 flex flex-row items-center gap-3">
-          <div className="flex ">
-            <button
-              onClick={onBack}
-              className="px-4 py-1 h-10 cursor-pointer text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50"
-            >
-              ← Back
-            </button>
-          </div>
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-3xl font-extrabold text-gray-900 doto">
-                {report.repository}
-              </h1>
-              <p className="text-gray-600 mt-1">
-                Static Analysis Report • {report.language.toUpperCase()} •{' '}
-                {report.framework}
-              </p>
-              <p className="text-sm text-gray-500 mt-1">
-                Generated
-                {/* {new Date(report.createdAt.$date).toLocaleString()} */}
-              </p>
-            </div>
-          </div>
-        </div>
+    <div className="border-b border-gray-200 p-6 flex flex-col sm:flex-row sm:items-center sm:justify-start gap-4">
+
+  {/* Back Button */}
+  <button
+    onClick={onBack}
+    className="px-4 py-1 h-10 cursor-pointer text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50 w-fit"
+  >
+    ← Back
+  </button>
+
+  {/* Title / Repo Info */}
+  <div className="flex flex-col text-left sm:text-right">
+    <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 doto break-words">
+      {report.repository}
+    </h1>
+
+    <p className="text-gray-600 mt-1 text-sm sm:text-base">
+      Static Analysis Report • {report.language.toUpperCase()} • {report.framework}
+    </p>
+
+    <p className="text-xs sm:text-sm text-gray-500 mt-1">
+      Generated
+    </p>
+  </div>
+</div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200">
-          <nav className="flex space-x-8 px-6">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              const isDisabled = tab.disabled;
+{/* Tabs */}
+<div className="border-b border-gray-200">
+  <nav className="flex space-x-8 px-6 overflow-x-auto no-scrollbar whitespace-nowrap">
+    {tabs.map((tab) => {
+      const Icon = tab.icon;
+      const isActive = activeTab === tab.id;
+      const isDisabled = tab.disabled;
 
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() =>
-                    !isDisabled &&
-                    setActiveTab(
-                      tab.id as 'scores' | 'vulnerability' | 'rust' | 'ai',
-                    )
-                  }
-                  disabled={isDisabled}
-                  className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center cursor-pointer space-x-2 transition-all ${
-                    isDisabled
-                      ? 'opacity-50 border-blue-500 text-blue-600 cursor-not-allowed'
-                      : isActive
-                        ? 'border-blue-500 text-blue-600'
-                        : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" strokeWidth={2} />
-                  <span>{tab.label}</span>
-                </button>
-              );
-            })}
-          </nav>
-        </div>
+      return (
+        <button
+          key={tab.id}
+          onClick={() =>
+            !isDisabled &&
+            setActiveTab(
+              tab.id as 'scores' | 'vulnerability' | 'rust' | 'ai',
+            )
+          }
+          disabled={isDisabled}
+          className={`py-4 px-1 border-b-2 font-medium text-sm flex items-center cursor-pointer space-x-2 transition-all ${
+            isDisabled
+              ? 'opacity-50 border-blue-500 text-blue-600 cursor-not-allowed'
+              : isActive
+                ? 'border-blue-500 text-blue-600'
+                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+          }`}
+        >
+          <Icon className="w-4 h-4" strokeWidth={2} />
+          <span>{tab.label}</span>
+        </button>
+      );
+    })}
+  </nav>
+</div>
 
-        <div className="flex flex-row gap-6">
+
+<div className="flex flex-col lg:flex-row gap-2 md:gap-6">
+
           {/* Content */}
-          <div className="p-6 pr-0 w-[80%]">
+        <div className="px-2 py-2 md:p-6 md:pr-0 w-full lg:w-[75%]">
+
             {activeTab === 'scores' && (
               <div className="space-y-6">
-                <div className="flex flex-row items-start gap-4 w-full">
-                  {/* 20% width */}
-                  <div className="w-[20%] h-[150px]">
-                    <ComplexityCard
-                      complexityScore={Number(report?.scores?.total) || 0}
-                    />
-                  </div>
+              <div className="flex flex-col lg:flex-row items-start gap-4 w-full">
 
-                  {/* 45% width */}
-                  <div className="w-[40%]  h-[150px]">
-                    <HotspotsCard
-                      findings={{
-                        totalFindings:
-                          report?.report?.hotspots?.totalCount || 0,
-                        severityCounts: {
-                          high: report?.report?.hotspots?.highRiskCount || 0,
-                          medium:
-                            report?.report?.hotspots?.mediumRiskCount || 0,
-                          low: report?.report?.hotspots?.lowPriorityCount || 0,
-                        },
-                      }}
-                    />
-                  </div>
+  {/* Complexity Score */}
+  <div className="w-full lg:w-[20%] h-[150px]">
+    <ComplexityCard
+      complexityScore={Number(report?.scores?.total) || 0}
+    />
+  </div>
 
-                  {/* 35% width */}
-                  <div className="w-[40%] h-[150px]">
-                    <AuditEffortCard report={report} />
-                  </div>
-                </div>
+  {/* Hotspots */}
+  <div className="w-full lg:w-[40%] h-[150px]">
+    <HotspotsCard
+      findings={{
+        totalFindings: report?.report?.hotspots?.totalCount || 0,
+        severityCounts: {
+          high: report?.report?.hotspots?.highRiskCount || 0,
+          medium: report?.report?.hotspots?.mediumRiskCount || 0,
+          low: report?.report?.hotspots?.lowPriorityCount || 0,
+        },
+      }}
+    />
+  </div>
+
+  {/* Audit Effort */}
+  <div className="w-full lg:w-[40%] h-[150px]">
+    <AuditEffortCard report={report} />
+  </div>
+
+</div>
+
 
                 {/* Detailed Score Cards */}
                 {/* Detailed Score Cards */}
@@ -390,28 +395,29 @@ export default function StaticAnalysisReportDisplay({
               </div>
             )}
 
-            {activeTab === 'vulnerability' && report?.ai_analysis && (
-              <div className="relative min-h-[600px]">
-                {/* LOCKED CONTENT (no selection + no click) */}
-                <div className="locked-tab opacity-60 pointer-events-none select-none user-select-none">
-                  <AIAnalysisTab ai={report.ai_analysis} />
-                </div>
+          {activeTab === 'vulnerability' && report?.ai_analysis && (
+  <div className="relative h-[400px] md:min-h-[600px]">
 
-                {/* Glass Overlay */}
-                <div className="absolute inset-0 rounded-xl border border-[var(--blue-primary)]/60 bg-[rgba(127,175,200,0.05)] backdrop-blur-[6px] pointer-events-none" />
+    {/* LOCKED CONTENT */}
+    <div className="h-[400px] overflow-hidden md:h-auto locked-tab opacity-60 pointer-events-none select-none user-select-none px-2 md:px-0">
+      <AIAnalysisTab ai={report.ai_analysis} />
+    </div>
 
-                {/* Upgrade Overlay Image */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                  <Image
-                    src="/icons/Forensic.svg"
-                    alt="Upgrade Overlay"
-                    width={480}
-                    height={480}
-                    className="opacity-90"
-                  />
-                </div>
-              </div>
-            )}
+    {/* GLASS OVERLAY */}
+    <div className="absolute inset-0 rounded-xl border border-[var(--blue-primary)]/40 bg-[rgba(127,175,200,0.08)] backdrop-blur-md pointer-events-none" />
+
+    {/* ILLUSTRATION (Responsive) */}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <Image
+        src="/icons/Forensic.svg"
+        alt="Upgrade Overlay"
+        width={300}       // ✅ smaller default
+        height={300}
+        className="opacity-80 md:w-[420px] md:h-[420px] w-[65vw] h-[65vw] max-w-[380px] max-h-[380px]"
+      />
+    </div>
+  </div>
+)}
 
             {activeTab === 'ai' && report?.ai_analysis && (
               <AIAnalysisTab ai={report.ai_analysis} />
@@ -746,7 +752,8 @@ export default function StaticAnalysisReportDisplay({
                 );
               })()}
           </div>
-          <div className="flex flex-col -mt-6">
+<div className="flex flex-col items-center lg:items-start w-full lg:w-[25%] mt-4 lg:-mt-6">
+
             <Image
               src="/icons/AuditorProfile.svg"
               alt="Match Auditor Illustration"

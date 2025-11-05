@@ -35,9 +35,7 @@ export default function GitHubModalHeader({ step, onClose }: Props) {
             <div key={label} className="flex flex-col items-center">
               <span
                 className={`text-[13px] no-underline ${
-                  isActive
-                    ? 'text-[var(--navbar-active)] font-medium'
-                    : 'text-[var(--navbar-inactive)] font-normal'
+                  'text-[var(--blue-primary)] font-medium'
                 }`}
               >
                 {label}

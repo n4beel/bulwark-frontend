@@ -22,6 +22,7 @@ import { RootState } from '@/store/store';
 import { handleGitHubLogin } from '@/utils/auth';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 type AppState =
   | 'auth'
@@ -65,6 +66,9 @@ export default function Home() {
 
   const [openResults, setOpenResults] = useState(false);
   const [resultsReport, setResultsReport] = useState<any>(null);
+
+  const dispatch =useDispatch();
+
 
   const {
     step: githubStep,

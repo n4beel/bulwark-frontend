@@ -14,8 +14,10 @@ export default function StepResults({ report }: any) {
     : 'Uploaded Archive';
 
   return (
-    <div
-      className="relative px-8 pt-6 pb-0 min-h-[520px] flex flex-col"
+  
+  <div
+  className="relative px-4 md:px-8 pt-6 pb-0 min-h-[520px] flex flex-col"
+
       style={{
         backgroundImage:
           'radial-gradient(var(--border-color) 1px, transparent 1px)',
@@ -107,22 +109,20 @@ export default function StepResults({ report }: any) {
       </div>
 
       {/* MAIN GRID */}
-      <div className="flex flex-row justify-between gap-1  p-3 rounded-xl border border-[var(--border-color)] bg-[var(--background)]">
-        {/* Complexity Card */}
-        <div className="w-[40%]">
-          <ComplexityCard
-            complexityScore={Number(report?.scores?.total) || 0}
-          />
-        </div>
+    <div className="flex flex-col md:flex-row justify-between gap-3 p-3 rounded-xl border border-[var(--border-color)] bg-[var(--background)]">
+  <div className="w-full md:w-[40%]">
+    <ComplexityCard complexityScore={Number(report?.scores?.total) || 0} />
+  </div>
 
-        {/* Audit Effort Units */}
-        <div className="w-[60%]">
-          <AuditEffortCard report={report} />
-        </div>
-      </div>
+  <div className="w-full md:w-[60%]">
+    <AuditEffortCard report={report} />
+  </div>
+</div>
+
 
       {/* Hotspots - Use real data if available */}
-      <div className="mt-2">
+      <div className="mt-4">
+
         <HotspotsCard
           findings={{
             totalFindings: report?.report?.hotspots?.totalCount || 0,
@@ -140,7 +140,8 @@ export default function StepResults({ report }: any) {
         alt="wave"
         width={1200}
         height={20}
-        className="w-full h-5 mt-4"
+       className="w-full h-4 md:h-5 mt-4"
+
       />
     </div>
   );

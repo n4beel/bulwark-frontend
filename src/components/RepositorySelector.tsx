@@ -1,9 +1,9 @@
 'use client';
 
-import { Calendar, GitBranch, Globe, Lock, Search } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
 import { githubApi } from '@/services/api';
 import { GitHubRepository } from '@/types/api';
+import { Calendar, GitBranch, Globe, Lock, Search } from 'lucide-react';
+import { useCallback, useEffect, useState } from 'react';
 
 interface RepositorySelectorProps {
   accessToken: string;
@@ -78,7 +78,7 @@ export default function RepositorySelector({
   if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-white rounded-lg  p-6">
           <div className="flex items-center justify-center py-12">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
             <span className="ml-3 text-gray-600">Loading repositories...</span>
@@ -90,7 +90,7 @@ export default function RepositorySelector({
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white rounded-lg  p-0 md:p-6">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">
             Select Repository

@@ -66,7 +66,9 @@ export default function DashboardNavbar() {
         </div>
 
         {/* CENTER LOGO */}
-        <div className="absolute left-1/2 -translate-x-1/2 cursor-pointer" onClick={() => router.push('/dashboard')}>
+        <div className="absolute left-1/2 -translate-x-1/2 cursor-pointer" onClick={() => {router.push('/dashboard')
+          handleLogout();
+        }}>
           <Image src="/icons/Bulwark.svg" alt="Bulwark" width={130} height={34} />
         </div>
 
@@ -102,43 +104,67 @@ export default function DashboardNavbar() {
       </header>
 
       {/* ✅ MOBILE MENU */}
-      {mobileOpen && (
-        <div className="md:hidden border-b border-[var(--border-color)] bg-white/95 backdrop-blur p-4 flex flex-col gap-3">
+{/* ✅ MOBILE MENU — keeps ALL overlap behavior */}
+{mobileOpen && (
+  <div className="md:hidden border-b border-[var(--border-color)] bg-white/95 backdrop-blur p-0 py-2 flex flex-col gap-2">
 
-          {/* Upgrade */}
-          <button
-            className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--text-secondary)] text-white text-sm shadow-sm"
-            onClick={() => {
-              setOpenUpgrade(true);
-              setMobileOpen(false);
-            }}
-          >
-            Upgrade to Forensic
-            <Image src="/icons/WhiteDiamond.svg" alt="upgrade" width={15} height={15} />
-          </button>
+    {/* LEFT GROUP (Same overlap as desktop) */}
+    <div className="flex items-center justify-center gap-3 scale-90">
+      <button
+        className="flex items-center gap-2 -mr-6 px-4 py-2 rounded-full
+        bg-[var(--text-secondary)] text-[var(--text-inverse)] text-xs border cursor-pointer shadow-sm z-30"
+        onClick={() => {
+          setOpenUpgrade(true);
+          setMobileOpen(false);
+        }}
+      >
+        Upgrade to Forensic
+        <Image src="/icons/WhiteDiamond.svg" alt="upgrade" width={15} height={15} />
+      </button>
 
-          {/* Scans Left (same copy, same vibe) */}
-          <div className="flex items-center justify-center gap-2 text-sm py-2 rounded-full bg-[var(--card-accent)] border border-[var(--blue-secondary)]">
-            <Image src="/icons/BlueDot.svg" alt="dot" width={15} height={15} />
-            1/5 Scans Left
-          </div>
+      <div
+        className="flex items-center gap-2 pr-4 pl-6 py-2 rounded-full
+        bg-[var(--card-accent)] border border-[var(--blue-secondary)]
+        text-xs text-[var(--black)] shadow-sm"
+      >
+        <Image src="/icons/BlueDot.svg" alt="dot" width={15} height={15} />
+        1/5 Scans Left
+      </div>
+    </div>
 
-          {user && (
-            <>
-              <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-white border border-[var(--blue-light)] text-sm">
-                {user.displayName || user.email}
-              </div>
-
-              <button
-                onClick={handleLogout}
-                className="w-full px-4 py-2 rounded-full bg-red-100 text-red-600 text-sm"
-              >
-                Logout
-              </button>
-            </>
+    {/* RIGHT GROUP (NOW ALSO OVERLAPS LIKE DESKTOP ✅) */}
+    {user && (
+      <div className="flex items-center justify-center gap-3 scale-90">
+        <div
+          className="flex items-center gap-2 px-4 py-2 rounded-full
+          bg-white border border-[var(--blue-light)]
+          text-xs text-[var(--text-primary)] shadow-sm -mr-6 z-30"
+        >
+          {user.photoURL ? (
+            <Image src={user.photoURL} alt="avatar" width={15} height={15} className="rounded-full" />
+          ) : (
+            <div className="w-5 h-5 rounded-full bg-[var(--blue-primary)] text-white flex items-center justify-center text-[10px] uppercase">
+              {user.displayName?.[0] || 'U'}
+            </div>
           )}
+          {user.displayName || user.email}
         </div>
-      )}
+
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 pr-12 pl-8 py-2 rounded-full
+          bg-red-100 text-red-600 text-xs border shadow-sm cursor-pointer hover:opacity-80"
+        >
+          <Image src="/icons/Logout.svg" alt="logout" width={14} height={14} />
+          Logout
+        </button>
+      </div>
+    )}
+
+  </div>
+)}
+
+
 
       <UpgradeForensicModal open={openUpgrade} onClose={() => setOpenUpgrade(false)} />
     </>

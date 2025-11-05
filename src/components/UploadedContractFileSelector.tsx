@@ -89,7 +89,7 @@ export default function UploadedContractFileSelector({
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-6">
+      <div className="bg-white rounded-lg  p-0 md:p-6">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>

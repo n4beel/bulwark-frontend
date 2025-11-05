@@ -1,8 +1,8 @@
 'use client';
 
+import { uploadApi } from '@/services/api';
 import { CheckCircle, Info, Loader2, UploadCloud, X } from 'lucide-react';
 import { useRef, useState } from 'react';
-import { uploadApi } from '@/services/api';
 
 interface Props {
   onComplete: (extractedPath: string, files: any[]) => void;
@@ -52,7 +52,11 @@ export default function StepUpload({ onComplete, onBack }: Props) {
   };
 
   return (
-    <div className="px-10 py-4 min-h-[520px] flex flex-col justify-between">
+   <div className="flex flex-col justify-between min-h-full overflow-y-auto
+     px-0 py-1
+     sm:px-6 sm:py-0 
+     md:px-10 md:py-2">
+
       {/* Title */}
       <div>
         <h2 className="text-[20px] font-normal text-[var(--text-primary)]">
@@ -65,7 +69,7 @@ export default function StepUpload({ onComplete, onBack }: Props) {
 
         {/* File Picked Display */}
         {filePicked && (
-          <div className="mt-20 p-4 bg-green-50 border-2 border-green-200 rounded-2xl flex items-center justify-between">
+         <div className="mt-8 md:mt-20 p-3 md:p-4 bg-green-50 border-2 border-green-200 rounded-2xl flex items-center justify-between">
             <div className="flex items-center gap-3">
               <CheckCircle className="w-6 h-6 text-green-600" />
               <div>
@@ -97,7 +101,7 @@ export default function StepUpload({ onComplete, onBack }: Props) {
         {/* Dropzone */}
         {!filePicked && (
           <div
-            className="mt-6 rounded-2xl border-2 border-dashed px-10 py-4 text-center cursor-pointer
+            className="mt-2 md:mt-6 rounded-2xl border-2 border-dashed px-0  py-2 sm:px-6 md:px-10 md:py-4 text-center cursor-pointer
                        border-[#3A8DFF]/40 bg-[#D9E8FF]/20 hover:bg-[#D9E8FF]/30 transition-colors"
             onClick={() => inputRef.current?.click()}
           >
@@ -141,8 +145,8 @@ export default function StepUpload({ onComplete, onBack }: Props) {
         {/* Instructions */}
         <div
           className={`${
-            filePicked ? 'mt-26' : 'mt-6'
-          } p-4 rounded-2xl bg-[#F5F3FF] border border-[#E2D9FF]`}
+     filePicked ? 'mt-12 md:mt-26' :  'mt-2  md:mt-6'
+          }    p-3 sm:p-4  rounded-2xl bg-[#F5F3FF] border border-[#E2D9FF]`}
         >
           <div className="flex gap-2 items-center mb-2">
             <Info size={16} className="text-[var(--button-primary)]" />
@@ -164,7 +168,7 @@ export default function StepUpload({ onComplete, onBack }: Props) {
       </div>
 
       {/* Bottom Purple Disclosure */}
-      <div className="mt-6 rounded-xl bg-[#E8E0FF] text-[#6B4EFF] text-xs px-4 py-3 flex items-center gap-2">
+      <div className="mt-2 md:mt-6 rounded-xl bg-[#E8E0FF] text-[#6B4EFF] text-xs px-4 py-3 flex items-center gap-2">
         <img
           src="https://res.cloudinary.com/ahmed8215/image/upload/Arcium_jqbxu1.svg"
           alt="arcium"
@@ -174,7 +178,7 @@ export default function StepUpload({ onComplete, onBack }: Props) {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-end gap-3 mt-6">
+      <div className="flex justify-end gap-3  mt-2 md:mt-6">
         <button
           onClick={onBack}
           disabled={uploading}

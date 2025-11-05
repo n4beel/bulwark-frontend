@@ -1,8 +1,8 @@
 'use client';
 
 import { FileText, Search } from 'lucide-react';
-import { useState } from 'react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 interface Props {
   contractFiles: any[];
@@ -47,7 +47,19 @@ export default function StepFileSelect({
   const allSelected = selected.size === contractFiles.length;
 
   return (
-    <div className="px-10 py-6 min-h-[520px] flex flex-col justify-between">
+  <div
+  className="
+    flex flex-col justify-between
+    min-h-[520px]
+    px-0 py-6
+    max-h-[calc(90vh-80px)]
+    overflow-y-auto
+
+    sm:px-6 sm:py-4
+    max-[420px]:px-0 max-[420px]:py-2
+  "
+>
+
       {/* Header */}
       <div>
         {/* Success Message */}
@@ -111,7 +123,7 @@ export default function StepFileSelect({
         </div>
 
         {/* File List */}
-        <div className="border border-[var(--border-color)] rounded-xl overflow-hidden max-h-[280px] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-[var(--blue-primary)] [&::-webkit-scrollbar-thumb]:rounded-full">
+        <div className="border border-[var(--border-color)] rounded-xl overflow-hidden max-h-[180px]  md:max-h-[280px] overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-[var(--blue-primary)] [&::-webkit-scrollbar-thumb]:rounded-full">
           {filteredFiles.map((file, index) => (
             <div
               key={file.path}
@@ -191,12 +203,12 @@ export default function StepFileSelect({
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center mt-6">
+      <div className="flex flex-col md:flex-row justify-between items-center mt-6">
         <span className="text-sm text-[var(--text-secondary)]">
           Ready to analyze {selected.size} contract files
         </span>
 
-        <div className="flex gap-3">
+        <div className="flex gap-3 mt-2 md:mt-0">
           <button
             onClick={onBack}
             className="px-5 py-2 rounded-lg border border-[var(--border-color)] text-[var(--text-secondary)] hover:bg-[var(--gray-light)] transition-colors focus:outline-none cursor-pointer"
@@ -207,7 +219,7 @@ export default function StepFileSelect({
           <button
             onClick={() => onExecute(Array.from(selected))}
             disabled={selected.size === 0}
-            className={`px-6 py-2 rounded-lg font-medium text-white transition-colors focus:outline-none ${
+            className={`px-2 md:px-6 py-2 rounded-lg font-medium text-white transition-colors focus:outline-none ${
               selected.size > 0
                 ? 'bg-[var(--blue-primary)] hover:bg-[var(--blue-hover)] cursor-pointer'
                 : 'bg-gray-300 cursor-not-allowed'

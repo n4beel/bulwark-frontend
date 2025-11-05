@@ -40,7 +40,16 @@ export default function GitHubFlowModal({
 
   return (
     <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center">
-      <div className="relative w-full max-w-[720px] h-[680px]">
+     <div
+  className="
+    relative w-full max-w-[720px]
+    md:h-[680px]
+    max-h-[90vh]        /* ✅ prevents overflow on small screens */
+    rounded-[16px] md:rounded-[24px]
+    mx-4 md:mx-0
+    overflow-visible flex flex-col
+  "
+>
         <button
           onClick={onClose}
           className="absolute -top-2 -right-2 z-[10000] w-6 h-6 bg-white border border-gray-300 shadow cursor-pointer rounded-full flex items-center justify-center hover:bg-gray-200 transition"
@@ -69,6 +78,8 @@ export default function GitHubFlowModal({
             onClose={onClose}
           />
 
+        
+
           {/* Content area */}
           <div
             className={`flex-1 ${
@@ -79,8 +90,9 @@ export default function GitHubFlowModal({
                   : 'overflow-hidden'
             }`}
           >
+            
             {step === GitHubFlowStep.REPO_SELECT && (
-              <div className="px-10 py-6 min-h-[520px]">
+              <div className="px-4 md:px-10 py-6 min-h-[520px]">
                 <RepositorySelector
                   accessToken={accessToken}
                   onSelect={selectRepository}
@@ -90,7 +102,7 @@ export default function GitHubFlowModal({
             )}
 
             {step === GitHubFlowStep.FILE_SELECT && (
-              <div className="px-10 py-6 overflow-y-auto">
+                 <div className="px-4 md:px-10 py-6 overflow-y-auto">
                 <UploadedContractFileSelector
                   contractFiles={contractFiles}
                   onBack={onClose}
@@ -100,7 +112,8 @@ export default function GitHubFlowModal({
             )}
 
             {step === GitHubFlowStep.PROGRESS && (
-              <div className=" w-full h-full">
+              
+  <div className="p-0 w-full h-full">
                 <StepAnalysisProgress
                   onComplete={() => {
                     if (onOpenResults) onOpenResults(report);
