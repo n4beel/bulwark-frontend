@@ -1,8 +1,8 @@
 'use client';
 
 import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import Image from 'next/image';
 
 type Stage = {
   key: 'parsing' | 'structural' | 'security' | 'systemic' | 'economic';
@@ -223,11 +223,9 @@ export default function StepAnalysisProgress({
   const currentSubtitle = focusStage.subtitles[focusSubIdx - 1];
 
   return (
-   <div className="px-0 sm:px-4 md:px-6 lg:px-8 pt-1 md:pt-3 pb-0  md:pb-6 min-h-[420px] flex flex-col">
-
+    <div className="px-0 sm:px-4 md:px-6 lg:px-8 pt-1 md:pt-3 pb-0  md:pb-6 min-h-[420px] flex flex-col">
       {/* Top banner */}
-    <div className="rounded-2xl p-1 sm:p-4 md:p-6 mb-4 md:mb-6">
-
+      <div className="rounded-2xl p-1 sm:p-4 md:p-6 mb-2 md:mb-6">
         <div className="flex flex-col items-center">
           <p className="text-sm md:text-2xl font-semibold  md:font-normal text-[var(--text-primary)] mb-2">
             Running encrypted analysis on Arcium
@@ -266,8 +264,7 @@ export default function StepAnalysisProgress({
       </div>
 
       {/* Stages list */}
-   <div className="space-y-2 sm:space-y-3 mb-4">
-
+      <div className="space-y-2 sm:space-y-3 mb-2">
         {STAGES.map((stage, i) => {
           const state = stageState(i);
           return (
@@ -321,8 +318,7 @@ export default function StepAnalysisProgress({
 
       {/* Focus card (rotates during parallel) */}
       {focusStage && phase !== 'done' && (
-     <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--button-primary)]/10 px-2 py-2 sm:px-3 sm:py-3">
-
+        <div className="rounded-2xl border border-[var(--border-color)] bg-[var(--button-primary)]/10 px-2 py-2 sm:px-3 sm:py-3">
           <div className="flex items-center gap-3 mb-0">
             <Image
               src={

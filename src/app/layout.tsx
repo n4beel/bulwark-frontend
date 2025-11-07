@@ -1,8 +1,9 @@
+import AuthWatcher from '@/components/providers/AuthWatcher';
+import ReduxProvider from '@/components/providers/ReduxProvider';
+import { Toaster } from 'sonner'; // ✅ Import toast provider
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import AuthWatcher from '@/components/providers/AuthWatcher';
-import ReduxProvider from '@/components/providers/ReduxProvider';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -22,17 +23,21 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <AuthWatcher /> {children}
+          <AuthWatcher />
+          {children}
         </ReduxProvider>
+
+        {/* ✅ Global Toaster (works everywhere in app) */}
+        <Toaster richColors closeButton position="top-center" expand={false} />
       </body>
     </html>
   );

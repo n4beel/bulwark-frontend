@@ -25,25 +25,8 @@ export default function RepoInputSection({
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const handleAnalyze = async () => {
-    const githubRegex =
-      /^https?:\/\/(www\.)?github\.com\/([^\/]+)\/([^\/]+)(\/.*)?$/;
-
-    if (githubRegex.test(repoInput.trim())) {
-      try {
-        setIsAnalyzing(true);
-        await onAnalyze(repoInput.trim());
-      } catch (error) {
-        console.error('Analysis failed:', error);
-      } finally {
-        setIsAnalyzing(false);
-      }
-    }
-  };
-
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && !isAnalyzing) {
-      handleAnalyze();
-    }
+    await onAnalyze(repoInput.trim());
+    setRepoInput('');
   };
 
   return (
@@ -59,23 +42,24 @@ export default function RepoInputSection({
             iconSvg="/icons/LinkIcon.svg"
             iconPosition="left"
             value={repoInput}
-            onChange={(e) => setRepoInput(e.target.value)}
+            onChange={(e) => {
+              setRepoInput(e.target.value);
+            }}
             placeholder="Paste repo URL (GitHub/GitLab) or drop .sol/.rs/.zip"
-            onKeyPress={handleKeyPress}
+            // onKeyPress={handleKeyPress}
             className="rounded-xl"
             disabled={isAnalyzing}
           />
         </div>
 
         {/* ✅ Responsive Buttons */}
-      <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4">
-
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 mb-4">
           <Button
             variant="outline"
             icon="/icons/GitHubIcon.svg"
             iconPosition="left"
             onClick={onConnectGitHub}
-          className="w-full md:w-auto"
+            className="w-full md:w-auto"
             disabled={isAnalyzing}
           >
             Connect GitHub
@@ -86,7 +70,7 @@ export default function RepoInputSection({
             icon="/icons/UploadIcon.svg"
             iconPosition="left"
             onClick={onUploadZip}
-          className="w-full md:w-auto"
+            className="w-full md:w-auto"
             disabled={isAnalyzing}
           >
             Upload zip

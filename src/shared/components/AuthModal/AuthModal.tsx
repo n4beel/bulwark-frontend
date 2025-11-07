@@ -1,13 +1,10 @@
 'use client';
 
-import { auth, googleProvider } from '@/lib/firebase';
-import { setUser } from '@/store/slices/authSlice';
-import { handleGitHubLogin } from '@/utils/auth';
-import { signInWithPopup } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { useCallback } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
+import { handleGitHubLogin, handleGoogleLogin } from '@/utils/auth';
 
 interface Props {
   open: boolean;
@@ -36,18 +33,19 @@ export default function AuthModal({
 
   const loginWithGoogle = useCallback(async () => {
     try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const user = result.user;
+      // const result = await signInWithPopup(auth, googleProvider);
+      // const user = result.user;
 
-      dispatch(
-        setUser({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-        }),
-      );
-      redirectToDashboard();
+      // dispatch(
+      //   setUser({
+      //     uid: user.uid,
+      //     email: user.email,
+      //     displayName: user.displayName,
+      //     photoURL: user.photoURL,
+      //   }),
+      // );
+      await handleGoogleLogin(redirectPath, 'auth');
+      // redirectToDashboard();
     } catch (error) {
       console.error('Google login failed:', error);
     }
@@ -63,8 +61,8 @@ export default function AuthModal({
   }, [redirectPath]);
 
   return (
-   <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
-    <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 sm:p-10 text-center border border-[var(--blue-primary)] shadow-xl">
+    <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+      <div className="relative w-full max-w-lg rounded-2xl bg-white p-6 sm:p-10 text-center border border-[var(--blue-primary)] shadow-xl">
         <button
           onClick={onClose}
           className="absolute top-4 cursor-pointer right-4 text-[var(--gray-medium)] hover:text-[var(--gray-dark)] transition"

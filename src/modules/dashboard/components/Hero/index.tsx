@@ -2,7 +2,7 @@
 'use client';
 
 import { useSelector } from 'react-redux';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import AnalysisModals from '@/shared/components/AnalysisModals';
 import { useAnalysisFlows } from '@/shared/hooks/useAnalysisFlow';
 import { GitHubFlowStep } from '@/shared/hooks/useGitHubFlow';

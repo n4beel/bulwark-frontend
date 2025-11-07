@@ -1,5 +1,6 @@
 // hooks/useAnalysisFlows.ts
 import { useUploadFlow } from '@/hooks';
+import { toast } from 'sonner';
 import { useState } from 'react';
 import { GitHubFlowStep, useGitHubFlow } from '@/shared/hooks/useGitHubFlow';
 import { fetchRepoFilesPublic } from '@/services/api';
@@ -55,32 +56,43 @@ export const useAnalysisFlows = () => {
 
   const handleAnalyze = async (input: string) => {
     const match = input.match(/github\.com\/([^/]+)\/([^/]+)/);
-    if (!match) throw new Error('Invalid GitHub URL format');
+    if (!match) {
+      toast.error(
+        'Invalid repository URL. Use format: https://github.com/owner/repo',
+      );
+      return;
+    }
 
-    const owner = match[1];
-    const repo = match[2];
+    try {
+      toast.success('Repository recognized — proceeding ✅');
 
-    const result = await fetchRepoFilesPublic(owner, repo);
-    const files = result.rsFilesOnly.map((item: any) => ({
-      path: item.path,
-      name: item.path.split('/').pop()!,
-      size: 0,
-      language: 'Rust',
-    }));
+      const owner = match[1];
+      const repo = match[2];
 
-    selectRepository(
-      {
-        id: 0,
-        name: repo,
-        full_name: `${owner}/${repo}`,
-        html_url: input,
-        private: false,
-      },
-      files,
-    );
+      const result = await fetchRepoFilesPublic(owner, repo);
+      const files = result.rsFilesOnly.map((item: any) => ({
+        path: item.path,
+        name: item.path.split('/').pop()!,
+        size: 0,
+        language: 'Rust',
+      }));
 
-    setContractFiles(files);
-    setStep(GitHubFlowStep.FILE_SELECT);
+      selectRepository(
+        {
+          id: 0,
+          name: repo,
+          full_name: `${owner}/${repo}`,
+          html_url: input,
+          private: false,
+        },
+        files,
+      );
+
+      setContractFiles(files);
+      setStep(GitHubFlowStep.FILE_SELECT);
+    } catch (error) {
+      toast.error('Failed to analyze repository. Please try again.');
+    }
   };
 
   return {

@@ -39,17 +39,17 @@ export default function GitHubFlowModal({
   if (step === GitHubFlowStep.AUTH) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-black/40 backdrop-blur-sm flex items-center justify-center">
-     <div
-  className="
+    <div className="fixed inset-0 z-[9999] bg-black/40 overflow-hidden backdrop-blur-sm flex items-center justify-center">
+      <div
+        className="
     relative w-full max-w-[720px]
     md:h-[680px]
-    max-h-[90vh]        /* ✅ prevents overflow on small screens */
+    max-h-[90vh]  md:max-h-[100%]      /* ✅ prevents overflow on small screens */
     rounded-[16px] md:rounded-[24px]
     mx-4 md:mx-0
     overflow-visible flex flex-col
   "
->
+      >
         <button
           onClick={onClose}
           className="absolute -top-2 -right-2 z-[10000] w-6 h-6 bg-white border border-gray-300 shadow cursor-pointer rounded-full flex items-center justify-center hover:bg-gray-200 transition"
@@ -66,7 +66,7 @@ export default function GitHubFlowModal({
           </svg>
         </button>
 
-        <div className="relative w-full h-full bg-[var(--background)] rounded-[24px] shadow-xl flex flex-col">
+        <div className="relative w-full h-full bg-[var(--background)] rounded-[24px] overflow-hidden shadow-xl flex flex-col">
           <GitHubModalHeader
             step={
               step === GitHubFlowStep.REPO_SELECT
@@ -78,19 +78,8 @@ export default function GitHubFlowModal({
             onClose={onClose}
           />
 
-        
-
           {/* Content area */}
-          <div
-            className={`flex-1 ${
-              step === GitHubFlowStep.REPO_SELECT
-                ? 'overflow-hidden'
-                : step === GitHubFlowStep.FILE_SELECT
-                  ? 'overflow-y-auto'
-                  : 'overflow-hidden'
-            }`}
-          >
-            
+          <div className={`flex-1 overflow-y-auto md:overflow-y-hidden`}>
             {step === GitHubFlowStep.REPO_SELECT && (
               <div className="px-4 md:px-10 py-6 min-h-[520px]">
                 <RepositorySelector
@@ -102,7 +91,7 @@ export default function GitHubFlowModal({
             )}
 
             {step === GitHubFlowStep.FILE_SELECT && (
-                 <div className="px-4 md:px-10 py-6 overflow-y-auto">
+              <div className="px-4 md:px-10 py-2 ">
                 <UploadedContractFileSelector
                   contractFiles={contractFiles}
                   onBack={onClose}
@@ -112,8 +101,7 @@ export default function GitHubFlowModal({
             )}
 
             {step === GitHubFlowStep.PROGRESS && (
-              
-  <div className="p-0 w-full h-full">
+              <div className="p-0 w-full h-full">
                 <StepAnalysisProgress
                   onComplete={() => {
                     if (onOpenResults) onOpenResults(report);

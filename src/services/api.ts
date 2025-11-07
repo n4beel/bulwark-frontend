@@ -174,6 +174,27 @@ export const authApi = {
     const response = await api.get(`/auth/github/url?${queryString}`);
     return response.data;
   },
+  getGoogleAuthUrl: async (
+    redirectPath?: string,
+    mode?: 'auth' | 'connect',
+  ): Promise<{ authUrl: string }> => {
+    const currentPath = redirectPath || window.location.pathname;
+    const modeParam = mode || 'auth';
+
+    // ✅ Extract reportId if present in the current URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const reportId = urlParams.get('report');
+
+    // ✅ Build query string
+    let queryString = `from=${encodeURIComponent(currentPath)}&mode=${modeParam}`;
+    if (reportId) {
+      queryString += `&reportId=${encodeURIComponent(reportId)}`;
+    }
+
+    // ✅ Send identical format as GitHub version
+    const response = await api.get(`/auth/google/url?${queryString}`);
+    return response.data;
+  },
 
   validateToken: async (
     token: string,
@@ -238,7 +259,7 @@ export interface FactorsResponse {
   [groupKey: string]: FactorGroup;
 }
 
-export type { FactorInfo, FactorGroup };
+export type { FactorGroup, FactorInfo };
 
 export const uploadApi = {
   // Step 1: Upload and discover files (like GitHub file discovery)

@@ -2,7 +2,6 @@
 
 import {
   ArrowLeft,
-  ArrowRight,
   Brain,
   CheckSquare,
   Code2,
@@ -11,6 +10,7 @@ import {
   Square,
 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import AnalysisActionBar from '@/shared/components/AnalysisActionBar/AnalysisActionBar';
 import { githubApi } from '@/services/api';
 import { GitHubRepository } from '@/types/api';
 
@@ -420,36 +420,11 @@ export default function ContractFileSelector({
         </div>
 
         {/* Action Buttons */}
-        <div className="flex items-center justify-between mt-6">
-          <div className="text-sm text-gray-600">
-            {selectedFiles.size > 0 && (
-              <span>
-                Ready to analyze {selectedFiles.size} contract file
-                {selectedFiles.size !== 1 ? 's' : ''}
-              </span>
-            )}
-          </div>
-          <div className="flex space-x-3">
-            <button
-              onClick={onBack}
-              className="px-4 py-2 text-gray-600 hover:text-gray-800 border border-gray-300 rounded-md hover:bg-gray-50"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleProceed}
-              disabled={selectedFiles.size === 0}
-              className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-            >
-              <span>
-                {analysisType === 'ai'
-                  ? 'Run AI Analysis'
-                  : 'Run Static Analysis'}
-              </span>
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </button>
-          </div>
-        </div>
+        <AnalysisActionBar
+          count={selectedFiles.size}
+          onBack={onBack}
+          onRun={handleProceed}
+        />
       </div>
     </div>
   );

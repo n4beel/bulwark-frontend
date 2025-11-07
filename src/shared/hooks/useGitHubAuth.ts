@@ -1,13 +1,16 @@
 'use client';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { setTokens, setUser } from '@/store/slices/authSlice';
+import { RootState } from '@/store/store';
 
 export const useGitHubAuth = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const pathname = usePathname();
+  const { githubToken } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -64,5 +67,13 @@ export const useGitHubAuth = () => {
         }
       } catch (err) {}
     }
+
+    // if (githubToken && pathname === '/') {
+    //   dispatch(logout());
+    //   localStorage.removeItem('github_token');
+    //   localStorage.removeItem('github_user');
+    //   localStorage.removeItem('jwt_token');
+    //   router.push('/'); // stay or reload homepage
+    // }
   }, [dispatch, router]);
 };

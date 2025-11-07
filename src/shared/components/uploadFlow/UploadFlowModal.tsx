@@ -36,8 +36,8 @@ export default function UploadFlowModal({
 
   return (
     <div className="fixed inset-0 z-[9999]   bg-black/40 backdrop-blur-sm flex  items-center justify-center">
-<div
-  className="
+      <div
+        className="
     relative w-full max-w-[720px]
     md:h-[680px]
     max-h-[90vh]        /* ✅ prevents overflow on small screens */
@@ -45,9 +45,7 @@ export default function UploadFlowModal({
     mx-4 md:mx-0
     overflow-visible flex flex-col
   "
->
-
-
+      >
         {/* close button */}
         <button
           onClick={onClose}
@@ -67,30 +65,29 @@ export default function UploadFlowModal({
           </svg>
         </button>
 
-     <div
-  className="
+        <div
+          className="
     relative w-full h-full bg-[var(--background)]
     md:rounded-[24px] rounded-[16px]
     shadow-xl flex flex-col
     overflow-hidden
     md:p-0 p-2
   "
->
-
+        >
           <ModalHeader step={step} onClose={onClose} />
-        <div className="flex-1 p-1 md:py-0 md:px-2 overflow-y-auto">
-
+          <div className="flex-1 p-1 md:py-0 md:px-2 overflow-y-auto md:overflow-hidden">
             {step === UploadFlowStep.UPLOAD && (
-          <StepUpload onComplete={startFileSelect} onBack={onClose} />
-            
+              <StepUpload onComplete={startFileSelect} onBack={onClose} />
             )}
             {step === UploadFlowStep.FILE_SELECT && (
-              <StepFileSelect
-                contractFiles={contractFiles}
-                onExecute={runAnalysis}
-                onBack={() => goToPreviousStep(step)}
+              <div className=" h-full">
+                <StepFileSelect
+                  contractFiles={contractFiles}
+                  onExecute={runAnalysis}
+                  onBack={() => goToPreviousStep(step)}
                 />
-              )}
+              </div>
+            )}
             {step === UploadFlowStep.PROGRESS && (
               <StepAnalysisProgress
                 onComplete={() => {

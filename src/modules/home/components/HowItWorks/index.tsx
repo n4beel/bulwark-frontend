@@ -28,7 +28,10 @@ const steps = [
 ];
 export default function HowItWorks() {
   return (
-    <section className="w-full max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24" id="how">
+    <section
+      className="w-full max-w-6xl mx-auto px-4 md:px-6 py-16 md:py-24"
+      id="how"
+    >
       <h2
         className="text-center text-2xl md:text-3xl font-normal mb-12"
         style={{ fontFamily: '"Doto", sans-serif' }}
@@ -44,4 +47,3 @@ export default function HowItWorks() {
     </section>
   );
 }
-

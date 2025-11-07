@@ -1,54 +1,21 @@
 'use client';
 
-interface Props {
-  step: 'upload' | 'fileSelect' | 'progress';
+import StepHeader, { StepItem } from '@/shared/components/StepHeader';
+
+type UploadStep = 'upload' | 'fileSelect' | 'progress';
+
+const UPLOAD_STEPS: Readonly<StepItem<UploadStep>[]> = [
+  { key: 'upload', label: 'Upload' },
+  { key: 'fileSelect', label: 'Select Files' },
+  { key: 'progress', label: 'Analyze' },
+] as const;
+
+export default function ModalHeader({
+  step,
+  onClose,
+}: {
+  step: UploadStep;
   onClose: () => void;
-}
-
-const steps = ['Upload', 'Select Files', 'Analyze'] as const;
-
-export default function ModalHeader({ step, onClose }: Props) {
-  return (
-    <div className="relative">
-      {/* Progress Bar */}
-      <div className="h-[5px] w-full bg-[var(--border-color)] rounded-t-[26px]">
-        <div
-          className="h-full bg-[var(--button-primary)] transition-all rounded-tl-[26px]"
-          style={{
-            width:
-              step === 'upload'
-                ? '33%'
-                : step === 'fileSelect'
-                  ? '66%'
-                  : '100%',
-          }}
-        />
-      </div>
-
-      {/* Tabs */}
-      <div className="flex justify-between px-2 md:px-10 pt-2 pb-2">
-        {steps.map((label) => {
-          const isActive =
-            (step === 'upload' && label === 'Upload') ||
-            (step === 'fileSelect' && label === 'Select Files') ||
-            (step === 'progress' && label === 'Analyze');
-
-          return (
-            <div key={label} className="flex flex-col items-center">
-              <span
-                className={`text-[13px] no-underline ${
-         
-                  'text-[var(--blue-primary)] font-medium'
-
-
-                }`}
-              >
-                {label}
-              </span>
-            </div>
-          );
-        })}
-      </div>
-    </div>
-  );
+}) {
+  return <StepHeader steps={UPLOAD_STEPS} activeKey={step} compact />;
 }

@@ -1,13 +1,13 @@
 // components/dashboard/DashboardTabs.tsx
 'use client';
 
-import ReportsPage from '@/app/reports/page';
 import StaticAnalysisReportDisplay from '@/components/StaticAnalysisReportDisplay';
-import { staticAnalysisApi } from '@/services/api';
-import RepoInputSection from '@/shared/components/RepoInputSection';
-import { StaticAnalysisReport } from '@/types/api';
-import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import ReportsPage from '@/app/reports/page';
+import RepoInputSection from '@/shared/components/RepoInputSection';
+import { staticAnalysisApi } from '@/services/api';
+import { StaticAnalysisReport } from '@/types/api';
 import DashboardHeroHeader from '../Hero/DashboardHeroHeader';
 
 interface DashboardTabsProps {
@@ -149,10 +149,10 @@ const DashboardTabs = ({ handlers, initialReportId }: DashboardTabsProps) => {
           </div>
         )}
       </div>
-{/* Tabs - Only show main tabs, hide when viewing detail */}
-<div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full flex justify-center z-50 pointer-events-none">
-  <div
-    className="
+      {/* Tabs - Only show main tabs, hide when viewing detail */}
+      <div className="fixed bottom-8 left-1/2 -translate-x-1/2 w-full flex justify-center z-50 pointer-events-none">
+        <div
+          className="
       pointer-events-auto
       relative inline-flex rounded-full overflow-hidden
       border border-[#A8C3FF]
@@ -162,31 +162,30 @@ const DashboardTabs = ({ handlers, initialReportId }: DashboardTabsProps) => {
       /* ✅ Width stays centered */
       max-w-[90%] md:max-w-none
     "
-  >
+        >
+          {/* ✅ Animated GIF Background */}
+          <img
+            src="/videos/DockNavGIF.gif"
+            alt="dock background"
+            className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
+          />
 
-    {/* ✅ Animated GIF Background */}
-    <img
-      src="/videos/DockNavGIF.gif"
-      alt="dock background"
-      className="absolute inset-0 w-full h-full object-cover z-0 pointer-events-none"
-    />
-
-    {/* ✅ Content — Responsive padding */}
-    <div
-      className="
+          {/* ✅ Content — Responsive padding */}
+          <div
+            className="
         relative z-20 flex gap-2 rounded-full
         p-2 md:p-2 lg:p-2
       "
-    >
-      {TAB_CONFIG.map((tab) => (
-        <button
-          key={tab.id}
-          onClick={() => {
-            if (tab.id !== Tab.MARKETPLACE) setActiveTab(tab.id);
-            window.history.replaceState({}, '', '/dashboard');
-          }}
-          disabled={tab.id === Tab.MARKETPLACE}
-          className={`
+          >
+            {TAB_CONFIG.map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  if (tab.id !== Tab.MARKETPLACE) setActiveTab(tab.id);
+                  window.history.replaceState({}, '', '/dashboard');
+                }}
+                disabled={tab.id === Tab.MARKETPLACE}
+                className={`
             rounded-full font-normal transition-all text-nowrap
 
             /* ✅ Responsive sizing */
@@ -197,31 +196,33 @@ const DashboardTabs = ({ handlers, initialReportId }: DashboardTabsProps) => {
 
             ${
               tab.id === Tab.MARKETPLACE
-                ? "cursor-not-allowed opacity-50 text-[var(--gray-medium)]"
-                : "cursor-pointer"
+                ? 'cursor-not-allowed opacity-50 text-[var(--gray-medium)]'
+                : 'cursor-pointer'
             }
             ${
               activeTab === tab.id ||
               (activeTab === Tab.REPORT_DETAIL && tab.id === Tab.REPORTS)
-                ? "bg-[var(--blue-primary)] text-white"
-                : "text-[var(--gray-medium)]"
+                ? 'bg-[var(--blue-primary)] text-white'
+                : 'text-[var(--gray-medium)]'
             }
           `}
-        >
-          <div className="flex items-center gap-2">
-            {tab.icon && (
-              <Image src={tab.icon} alt={tab.label} width={18} height={18} />
-            )}
-            {tab.label}
+              >
+                <div className="flex items-center gap-2">
+                  {tab.icon && (
+                    <Image
+                      src={tab.icon}
+                      alt={tab.label}
+                      width={18}
+                      height={18}
+                    />
+                  )}
+                  {tab.label}
+                </div>
+              </button>
+            ))}
           </div>
-        </button>
-      ))}
-    </div>
-  </div>
-</div>
-
-
-
+        </div>
+      </div>
     </div>
   );
 };
